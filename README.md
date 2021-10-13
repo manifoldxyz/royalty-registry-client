@@ -1,5 +1,4 @@
-# MUST REMOVE .git WHEN COPYING
-# manifold-vue-template
+royalty-registry-client
 
 ## Project setup
 ```
