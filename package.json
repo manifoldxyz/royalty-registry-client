@@ -8,9 +8,6 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@manifoldxyz/connect-widget": "^2.0.0-alpha.ethers.13",
-    "@manifoldxyz/manifold-dropsitetools-lib": "^1.0.4-alpha",
-    "@manifoldxyz/manifold-sdk": "2.0.0-alpha.ethers.8",
     "core-js": "^3.6.5",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

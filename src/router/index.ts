@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from "@/views/Home.vue"
-import { NETWORK, FALLBACK_PROVIDER } from "@/constants"
+import LookupView from "@/views/LookupView.vue"
 
 if (!process || process.env.NODE_ENV !== 'test') {
   Vue.use(VueRouter)
@@ -10,9 +9,13 @@ if (!process || process.env.NODE_ENV !== 'test') {
 export const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-    props: {},
+    name: 'Lookup',
+    component: LookupView,
+  },
+  {
+    path:':address/:id/',
+    name: 'Lookup-Results',
+    component: LookupView
   },
 ]
 
