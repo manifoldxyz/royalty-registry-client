@@ -1,4 +1,4 @@
-royalty-registry-client
+# royalty-registry-client
 
 ## Project setup
 ```
