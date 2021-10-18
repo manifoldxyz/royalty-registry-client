@@ -32,13 +32,13 @@
     }
   })
   export default class LookupView extends Vue {
-    showResults: boolean = true
+    showResults: boolean = false
   }
 </script>
 <style lang="scss">
   #lookup-view {
     width: 100%;
-    height: auto;
+    height: min-content;
 
     .lookup-view-head {
       width: 100%;
