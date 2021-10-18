@@ -35,13 +35,13 @@
           </li>
         </ul>
         <p>
-          The Royalty Registry is composed of two parts: the Royalty Registry and the Royalty Engine. The code can be found here: <a href="https://github.com/manifoldxyz/royalty-registry-solidity">https://github.com/manifoldxyz/royalty-registry-solidity</a>
+          The Royalty Registry is composed of two parts: the Royalty Registry and the Royalty Engine. The code can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity">https://github.com/manifoldxyz/royalty-registry-solidity</a>
         </p>
         <p>
           <strong>The Royalty Registry</strong> is an on chain contract that is responsible for storing Royalty configuration overrides.  The address for the registry is royaltyregistry.eth (0x…..).
         </p>
         <p>
-          It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
+          It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
         </p>
         <p>
           To set an override, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner can set an override for their contract.

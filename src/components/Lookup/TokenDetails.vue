@@ -12,7 +12,7 @@
       </div>
       <div>
         <span>Etherscan</span>
-        <a href="https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697">https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697</a>
+        <a target="_blank" href="https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697">https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697</a>
       </div>
     </div>
   </div>

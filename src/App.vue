@@ -1,24 +1,19 @@
 <template>
   <div id="app">
-    <app-header />
-    <landing-view />
-    <template v-if="false">
-      <template v-if="loaded">
-        <template v-if="hasWallet">
-          <app-header />
-          <router-view v-if="false"></router-view>
-          <landing-view />
-        </template>
-        <template v-else>
-          <div class="install-wallet">
-            <h1>RoyaltyRegistry.eth</h1>
-            <span>Please Install a Wallet</span>
-          </div>
-        </template>
+    <template v-if="loaded">
+      <template v-if="hasWallet">
+        <app-header />
+        <router-view></router-view>
       </template>
       <template v-else>
-        <span class="spinner"></span>
+        <div class="install-wallet">
+          <h1>RoyaltyRegistry.eth</h1>
+          <span>Please Install a Wallet</span>
+        </div>
       </template>
+    </template>
+    <template v-else>
+      <span class="spinner"></span>
     </template>
   </div>
 </template>
