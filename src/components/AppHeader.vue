@@ -8,8 +8,8 @@
       <rect x="4" y="4" width="2" height="2" fill="#110011" />
     </svg>
     <nav>
-      <a class="disabled">Lookup</a>
-      <a class="disabled">Configure</a>
+      <a class="disabled">Lookup<span>Coming Soon</span></a>
+      <a class="disabled">Configure<span>Coming Soon</span></a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="header-networks">
@@ -39,6 +39,7 @@
     align-items: center;
     grid-gap: 18px;
     padding: calc(var(--padding) + 10px);
+    overflow: visible;
 
     * {
       font-size: 12px;
@@ -49,11 +50,31 @@
     .header-networks {
       display: flex;
       grid-gap: 18px;
+      overflow: visible;
 
       a.disabled {
         opacity: 0.25;
-        pointer-events: none;
         cursor: default;
+        position: relative;
+        overflow: visible;
+
+        span {
+          font-size: 75%;
+          position: absolute;
+          top: 200%;
+          left: 50%;
+          transform: translate(-50%, calc(-50% - 10px));
+          white-space: nowrap;
+          opacity: 0;
+          transition: opacity 0.25s, transform 0.25s;
+        }
+
+        &:hover {
+          span {
+            opacity: 1;
+            transform: translate(-50%, calc(-50%));
+          }
+        }
       }
     }
 
