@@ -8,7 +8,7 @@
       <rect x="4" y="4" width="2" height="2" fill="#110011" />
     </svg>
     <nav>
-      <a class="disabled">Lookup<span>Coming Soon</span></a>
+      <router-link to="/">Lookup</router-link>
       <a class="disabled">Configure<span>Coming Soon</span></a>
       <a href="#faq">FAQ</a>
     </nav>

@@ -7,12 +7,12 @@ export const RoyaltyEngineV1Addresses: Map<number, string> = new Map([
    [4, '0x8d17687ea9a6bb6efA24ec11DcFab01661b2ddcd'],
 ])
 
-interface RoyaltyInfo {
+export interface RoyaltyInfo {
   recipient: string,
   amount: ethers.BigNumber
 }
 
-class RoyaltyEngineV1 {
+export class RoyaltyEngineV1 {
   private engineContract_: ethers.Contract | null = null
   private ethersProvider_: ethers.providers.Web3Provider
   

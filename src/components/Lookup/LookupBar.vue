@@ -7,7 +7,7 @@
       <label>Eth Value</label>
       <input type="text" placeholder="0000" v-model="ethValue" @focus="selectAll" />
     </div>
-    <button :disabled="disabled">
+    <button :disabled="disabled" @click="submit">
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="1">
           <circle cx="12.5" cy="12.5" r="8.33883" transform="rotate(-45 12.5 12.5)" stroke="black" />
@@ -91,6 +91,14 @@
         this.disabled = true
       }
     }
+
+    submit() {
+      this.$emit('submit', {
+        address: this.address,
+        id: this.id,
+        value: this.ethValue
+      })
+    }
   }
 </script>
 <style lang="scss" scoped>
@@ -152,6 +160,8 @@
       }
 
       &:not([disabled]) {
+        pointer-events: initial;
+
         &:hover {
           background: #f7f7f7;
 

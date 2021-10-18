@@ -4,25 +4,25 @@
     <div class="token-details-content">
       <div>
         <span>Address</span>
-        <span>0x7afeda4c714e1c0a2a1248332c100924506ac8e6</span>
+        <span>{{ values.address }}</span>
       </div>
       <div>
         <span>ID</span>
-        <span>2697</span>
+        <span>{{ values.id }}</span>
       </div>
       <div>
         <span>Etherscan</span>
-        <a target="_blank" href="https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697">https://etherscan.io/token/0x7afeda4c714e1c0a2a1248332c100924506ac8e6?a=2697</a>
+        <a target="_blank" :href="`https://etherscan.io/token/${values.address}?a=${values.id}`">https://etherscan.io/token/{{ values.address }}?a={{ values.id }}</a>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue } from "vue-property-decorator"
+  import { Component, Prop, Vue } from "vue-property-decorator"
 
   @Component
   export default class TokenDetails extends Vue {
-
+    @Prop({ type: Object, required: true}) values: object
   }
 </script>
 <style lang="scss" scoped>
