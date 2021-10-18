@@ -9,7 +9,7 @@
     <button>
       <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
         <g opacity="0.25">
-          <circle cx="12.5" cy="12.5" r="8.33883" transform="rotate(-45 12.5 12.5)" fill="#C4C4C4" fill-opacity="0.01" stroke="black" />
+          <circle cx="12.5" cy="12.5" r="8.33883" transform="rotate(-45 12.5 12.5)" stroke="black" />
           <path d="M18.4896 17.9688L23.1771 22.6563" stroke="black" />
         </g>
       </svg>
@@ -69,9 +69,24 @@
 
     button {
       background: white;
+      transition: background 0.25s;
 
       svg {
         transform: translateX(-1.5px);
+
+        g {
+          transition: opacity 0.25s;
+        }
+      }
+
+      &:hover {
+        background: #f7f7f7;
+
+        svg {
+          g {
+            opacity: 1;
+          }
+        }
       }
     }
   }

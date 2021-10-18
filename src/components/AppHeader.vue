@@ -8,9 +8,9 @@
       <rect x="4" y="4" width="2" height="2" fill="#110011" />
     </svg>
     <nav>
-      <a>Lookup</a>
-      <a>Configure</a>
-      <a>FAQ</a>
+      <a class="disabled">Lookup</a>
+      <a class="disabled">Configure</a>
+      <a href="#faq">FAQ</a>
     </nav>
     <div class="header-networks">
       <span>Mainnet</span>
@@ -38,7 +38,7 @@
     justify-content: flex-start;
     align-items: center;
     grid-gap: 18px;
-    padding: var(--padding);
+    padding: calc(var(--padding) + 10px);
 
     * {
       font-size: 12px;
@@ -49,9 +49,16 @@
     .header-networks {
       display: flex;
       grid-gap: 18px;
+
+      a.disabled {
+        opacity: 0.25;
+        pointer-events: none;
+        cursor: default;
+      }
     }
 
     .header-networks {
+      display: none;
       margin-left: auto;
     }
   }

@@ -10,7 +10,7 @@
       <label>
         Token ID
       </label>
-      <input type="text" placeholder="0000" />
+      <input type="number" placeholder="0000" />
     </div>
   </div>
 </template>

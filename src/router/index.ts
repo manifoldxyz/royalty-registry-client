@@ -13,7 +13,7 @@ export const routes = [
     component: LookupView,
   },
   {
-    path:':address/:id/',
+    path:'/:address/:id/',
     name: 'Lookup-Results',
     component: LookupView
   },

@@ -1,31 +1,119 @@
 <template>
-  <div class="faq">
+  <div id="faq" class="faq">
     <h2>Frequently Asked Questons</h2>
 
     <details>
       <summary>
         <h3>How do on-chain Royalties work?</h3>
-        <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 5L10 -4.76837e-07L-5.1656e-07 -1.35107e-06L5 5Z" fill="black" />
-        </svg>
       </summary>
       <div>
         <p>
           Whenever an NFT sale occurs in a marketplace, it is up to the marketplace to hold back part of the proceeds of the sale to distribute to the original content creator. But how does the marketplace know how much to hold back and where to send the royalties to? That’s where on-chain Royalties come in.
         </p>
+        <p>
+          On-chain royalties are royalty configurations that are baked into the original token contract. They provide a way for marketplaces to ask those contracts what the appropriate royalty amount is and who the royalty recipient should be for any token in that contract.
+        </p>
+        <p>
+          There are a number of token specs out there, including EIP2981, SuperRare, Rarible and Manifold.  While they all do similar things (i.e. provide a royalty amount and recipient address per token), they have slightly different implementations.  This makes it difficult for marketplaces to adhere to all the royalty specs, and is problematic for older tokens to add on-chain royalty configurations (i.e. tokens that may have launched on OpenSea with royalties set up off-chain).
+        </p>
       </div>
     </details>
-
     <details>
       <summary>
-        <h3>How do on-chain Royalties work?</h3>
-        <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M5 5L10 -4.76837e-07L-5.1656e-07 -1.35107e-06L5 5Z" fill="black" />
-        </svg>
+        <h3>What is the Royalty Registry?</h3>
       </summary>
       <div>
         <p>
-          Whenever an NFT sale occurs in a marketplace, it is up to the marketplace to hold back part of the proceeds of the sale to distribute to the original content creator. But how does the marketplace know how much to hold back and where to send the royalties to? That’s where on-chain Royalties come in.
+          The goal of the Royalty Registry is twofold:
+        </p>
+        <ul>
+          <li>
+            Make it easy for marketplaces to use the appropriate on-chain royalty configurations
+          </li>
+          <li>
+            Make it possible for contracts that did not originally support on-chain royalties to add them
+          </li>
+        </ul>
+        <p>
+          The Royalty Registry is composed of two parts: the Royalty Registry and the Royalty Engine. The code can be found here: <a href="https://github.com/manifoldxyz/royalty-registry-solidity">https://github.com/manifoldxyz/royalty-registry-solidity</a>
+        </p>
+        <p>
+          <strong>The Royalty Registry</strong> is an on chain contract that is responsible for storing Royalty configuration overrides.  The address for the registry is royaltyregistry.eth (0x…..).
+        </p>
+        <p>
+          It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
+        </p>
+        <p>
+          To set an override, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner can set an override for their contract.
+        </p>
+        <p>
+          <strong>The Royalty Engine</strong> is a contract that provides an easy way for any marketplace to look up royalties for any given token contract. If a token contract has set an override in the Royalty Registry, it will use that information. Otherwise, it will attempt to use royalty information from any of the supported specs:
+        </p>
+        <ul>
+          <li>EIP2981</li>
+          <li>Rarible</li>
+          <li>Manifold</li>
+          <li>SuperRare</li>
+          <li>Zora (limited functionality)</li>
+        </ul>
+        <p>
+          You can use the deployed Royalty Engine at engine.royaltyregistry.eth (0x….) or you can fork the engine and include it in your marketplace.
+        </p>
+      </div>
+    </details>
+    <details>
+      <summary>
+        <h3>Who built the Royalty Registry?</h3>
+      </summary>
+      <div>
+        <p>
+          Manifold.xyz built the Royalty Registry in collaboration with Foundation, Nifty Gateway, OpenSea, Rarible and SuperRare. We all believe that it’s important to ensure creators get their fair share of every sale.
+        </p>
+      </div>
+    </details>
+    <details>
+      <summary>
+        <h3>For Creators</h3>
+      </summary>
+      <div>
+        <p>
+          If your token contract already supports EIP2981 or is a Manifold, Rarible, SuperRare or Zora contract, you’re all good to go!
+        </p>
+        <p>
+          If not, you’ll need to deploy your own royalty override contract and set the override on the Royalty Registry as described above. Creators whose contract token was provided by another platform may want to contact the platform or contract owner for support with this operation.
+        </p>
+      </div>
+    </details>
+    <details>
+      <summary>
+        <h3>For Developers</h3>
+      </summary>
+      <div>
+        <p>
+          If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is here and the Royalty Engine locations are:
+        </p>
+        <ul>
+          <li>Rinkeby: 0x….</li>
+          <li>Ropsten: 0x….</li>
+          <li>Mainnet: 0x….</li>
+        </ul>
+        <p>
+          If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is here and the Royalty Registry locations are:
+        </p>
+        <ul>
+          <li>Rinkeby: 0x….</li>
+          <li>Ropsten: 0x….</li>
+          <li>Mainnet: 0x….</li>
+        </ul>
+      </div>
+    </details>
+    <details>
+      <summary>
+        <h3>Coming Soon</h3>
+      </summary>
+      <div>
+        <p>
+          We believe all creators should have the tools and information regarding their contract royalties regardless of technical ability. We plan to launch a friendly user interface for understanding more about your on-chain royalties and performing operations like looking up royalty rates and setting override implementations.
         </p>
       </div>
     </details>
@@ -69,14 +157,55 @@
         h3 {
           font-size: 20px;
         }
+
+        &::after {
+          display: block;
+          content: '';
+          width: 10px;
+          height: 5px;
+          background: url('data:image/svg+xml;utf8,<svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 5L10 -4.76837e-07L-5.1656e-07 -1.35107e-06L5 5Z" fill="black" /></svg>');
+        }
       }
 
       > div {
         padding: 0 10px 20px 10px;
 
-        p {
+        * {
           font-size: 16px;
           line-height: 1.5;
+          color: #666;
+
+          strong {
+            font-size: inherit;
+            font-weight: 900;
+          }
+
+          em {
+            font-size: inherit;
+            font-style: italic;
+          }
+
+          a {
+            text-decoration: underline;
+          }
+        }
+
+        > * {
+          margin-bottom: 1rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+
+        ul {
+          list-style-type: square;
+          list-style-position: inside;
+
+          li {
+            width: calc(100% - 5px);
+            margin-left: 5px;
+          }
         }
       }
 
