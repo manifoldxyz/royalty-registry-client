@@ -4,7 +4,7 @@ import { RoyaltyRegistryABI } from "../abi/RoyaltyRegistry.json"
 export const RoyaltyRegistryAddresses: Map<number, string> = new Map([
    [1, ''],
    [3, '0x9cac159ec266E76ed7377b801f3b5d2cC7bcf40d'],
-   [4, '0xf54A550a5aB63C4aE982d5A9f399DFfE41E04BE2'],
+   [4, '0xc9198CbbB57708CF31e0caBCe963c98e60d333c3'],
 ])
 
 class RoyaltyRegistry {
