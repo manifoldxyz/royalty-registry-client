@@ -93,17 +93,17 @@
           If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is here and the Royalty Engine locations are:
         </p>
         <ul>
-          <li>Rinkeby: 0x….</li>
-          <li>Ropsten: 0x….</li>
-          <li>Mainnet: 0x….</li>
+          <li>Rinkeby: {{ registry.get(4) }}.</li>
+          <li>Ropsten: {{ registry.get(3) }}.</li>
+          <li>Mainnet: {{ registry.get(1) }}.</li>
         </ul>
         <p>
           If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is here and the Royalty Registry locations are:
         </p>
         <ul>
-          <li>Rinkeby: 0x….</li>
-          <li>Ropsten: 0x….</li>
-          <li>Mainnet: 0x….</li>
+          <li>Rinkeby: {{ engine.get(4) }}.</li>
+          <li>Ropsten: {{ engine.get(3) }}.</li>
+          <li>Mainnet: {{ engine.get(1) }}.</li>
         </ul>
       </div>
     </details>
@@ -121,10 +121,18 @@
 </template>
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
+  import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
+  import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
 
   @Component
   export default class Faq extends Vue {
+    registry: Map<number, string> = new Map()
+    engine: Map<number, string> = new Map()
 
+    created() {
+      this.registry = RoyaltyRegistryAddresses
+      this.engine = RoyaltyEngineV1Addresses
+    }
   }
 </script>
 <style lang="scss" scoped>
