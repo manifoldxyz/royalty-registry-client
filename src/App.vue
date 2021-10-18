@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+  import { ethers } from "ethers"
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import AppHeader from "@/components/AppHeader.vue"
   import LandingView from "@/views/LandingView.vue"
@@ -32,11 +33,19 @@
   export default class App extends Vue {
     loaded: boolean = false
     hasWallet: boolean = false
+    ethersProvider: any
 
-    created() {
+    async created() {
       //@ts-ignore
       if (window.ethereum) {
         this.hasWallet = true
+        //@ts-ignore
+        this.ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
+        this.ethersProvider.provider.on("chainChanged", (chainId) => {
+          this.$store.commit('setNetwork', parseInt(chainId))
+          this.$router.push('/')
+        })
+        this.$store.commit('setNetwork', (await this.ethersProvider.getNetwork()).chainId)
       }
     }
 

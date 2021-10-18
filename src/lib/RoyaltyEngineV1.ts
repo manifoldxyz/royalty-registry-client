@@ -2,7 +2,7 @@ import { ethers } from "ethers"
 import { RoyaltyEngineV1ABI } from "../abi/RoyaltyEngineV1.json"
 
 export const RoyaltyEngineV1Addresses: Map<number, string> = new Map([
-   [1, ''],
+   [1, '0x0385603ab55642cb4dd5de3ae9e306809991804f'],
    [3, '0xFf5A6F7f36764aAD301B7C9E85A5277614Df5E26'],
    [4, '0x8d17687ea9a6bb6efA24ec11DcFab01661b2ddcd'],
 ])

@@ -17,10 +17,11 @@
 </template>
 <script lang="ts">
   import { Component, Prop, Vue } from "vue-property-decorator"
+  import { RoyaltyInfo } from "@/lib/RoyaltyEngineV1"
 
   @Component
   export default class TokenRoyalties extends Vue {
-    @Prop({ type: Array, required: true }) royaltyData: object[]
+    @Prop({ type: Array, required: true }) royaltyData: RoyaltyInfo[]
 
   }
 </script>

@@ -30,6 +30,7 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { ethers } from "ethers"
   import { RoyaltyInfo, RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
   import LookupBar from "@/components/Lookup/LookupBar.vue"
   import TokenDetails from "@/components/Lookup/TokenDetails.vue"
@@ -50,10 +51,12 @@
     loadingResults: boolean = false
     showResults: boolean = false
     tokenDetails: object = {}
-    royaltyData: object[] = []
+    royaltyData: RoyaltyInfo[] = []
+    engine: RoyaltyEngineV1
 
     created() {
-
+      //@ts-ignore
+      this.engine = new RoyaltyEngineV1(window.ethereum)
     }
 
     async lookup(values) {
@@ -61,6 +64,8 @@
       this.loadingResults = true
       this.tokenDetails = values
 
+      const royaltyData: RoyaltyInfo[] = await this.engine.getRoyalty(values.address, values.id, ethers.BigNumber.from (values.value))
+      console.log(royaltyData)
       setTimeout(() => {
         this.loadingResults = false
       }, 1000)

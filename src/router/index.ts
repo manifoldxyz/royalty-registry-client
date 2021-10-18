@@ -9,14 +9,23 @@ if (!process || process.env.NODE_ENV !== 'test') {
 export const routes = [
   {
     path: '/',
+    name: 'HomePage',
+    redirect: '/lookup'
+  },
+  {
+    path: '/lookup',
     name: 'Lookup',
     component: LookupView,
   },
   {
-    path:'/:address/:id/',
+    path:'/lookup/:address/:id/',
     name: 'Lookup-Results',
     component: LookupView
   },
+  {
+    path: "*",
+    redirect: { name: "HomePage" }
+  }
 ]
 
 const router = new VueRouter({

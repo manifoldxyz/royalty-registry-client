@@ -13,17 +13,31 @@
       <a href="#faq">FAQ</a>
     </nav>
     <div class="header-networks">
-      <span>Mainnet</span>
-      <span>Rinkeby</span>
-      <span>Ropsten</span>
+      <span :class="{selected: $store.state.network == 1}">Mainnet</span>
+      <span :class="{selected: $store.state.network == 3}">Ropsten</span>
+      <span :class="{selected: $store.state.network == 4}">Rinkeby</span>
+      <div class="header-networks-addresses">
+        <div><span>Engine:</span><span>{{ engine.get($store.state.network) }}</span></div>
+        <div><span>Registry:</span><span>{{ registry.get($store.state.network) }}</span></div>
+      </div>
     </div>
   </header>
 </template>
 <script lang="ts">
   import { Component, Vue, Prop } from 'vue-property-decorator'
+  import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
+  import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
 
   @Component
-  export default class AppHeader extends Vue {}
+  export default class AppHeader extends Vue {
+    registry: Map<number, string> = new Map()
+    engine: Map<number, string> = new Map()
+
+    created() {
+      this.registry = RoyaltyRegistryAddresses
+      this.engine = RoyaltyEngineV1Addresses
+    }
+  }
 </script>
 <style lang="scss" scoped>
   header {
@@ -51,6 +65,7 @@
       display: flex;
       grid-gap: 18px;
       overflow: visible;
+      position: relative;
 
       a.disabled {
         opacity: 0.25;
@@ -79,8 +94,47 @@
     }
 
     .header-networks {
-      display: none;
       margin-left: auto;
+
+      span.selected {
+        &:nth-child(1) {
+          color: #59b3ae;
+        }
+
+        &:nth-child(2) {
+          color: #ec5a8d;
+        }
+
+        &:nth-child(3) {
+          color: #efc45c;
+        }
+      }
+
+      .header-networks-addresses {
+        position: absolute;
+        top: 150%;
+        left: 0;
+        overflow: visible;
+
+        > div {
+          display: grid;
+          grid-template-rows: 1fr;
+          margin-bottom: 5px;
+          position: relative;
+          overflow: visible;
+
+          span {
+            font-size: 7.33px;
+
+            &:first-child {
+              color: #999;
+              position: absolute;
+              top: 0;
+              right: calc(100% + 8px);
+            }
+          }
+        }
+      }
     }
   }
 </style>

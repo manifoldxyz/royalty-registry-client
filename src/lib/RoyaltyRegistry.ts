@@ -2,7 +2,7 @@ import { ethers } from "ethers"
 import { RoyaltyRegistryABI } from "../abi/RoyaltyRegistry.json"
 
 export const RoyaltyRegistryAddresses: Map<number, string> = new Map([
-   [1, ''],
+   [1, '0xad2184fb5dbcfc05d8f056542fb25b04fa32a95d'],
    [3, '0x9cac159ec266E76ed7377b801f3b5d2cC7bcf40d'],
    [4, '0xc9198CbbB57708CF31e0caBCe963c98e60d333c3'],
 ])
