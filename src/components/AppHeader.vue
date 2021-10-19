@@ -17,8 +17,8 @@
       <span :class="{selected: $store.state.network == 3}">Ropsten</span>
       <span :class="{selected: $store.state.network == 4}">Rinkeby</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
-        <div><span>Engine:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
         <div><span>Registry:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
+        <div><span>Engine:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
       </div>
     </div>
   </header>
