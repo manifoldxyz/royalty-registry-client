@@ -38,7 +38,7 @@
           The Royalty Registry is composed of two parts: the Royalty Registry and the Royalty Engine. The code can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity">https://github.com/manifoldxyz/royalty-registry-solidity</a>
         </p>
         <p>
-          <strong>The Royalty Registry</strong> is an on chain contract that is responsible for storing Royalty configuration overrides.  The address for the registry is royaltyregistry.eth (0x…..).
+          <strong>The Royalty Registry</strong> is an on chain contract that is responsible for storing Royalty configuration overrides.  The address for the registry is royaltyregistry.eth (<a target="_blank" :href="getEtherscanAddressUrl(1, registry.get(1))">{{ registry.get(1) }}</a>).
         </p>
         <p>
           It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
@@ -57,7 +57,7 @@
           <li>Zora (limited functionality)</li>
         </ul>
         <p>
-          You can use the deployed Royalty Engine at engine.royaltyregistry.eth (0x….) or you can fork the engine and include it in your marketplace.
+          You can use the deployed Royalty Engine at engine.royaltyregistry.eth (<a target="_blank" :href="getEtherscanAddressUrl(1, engine.get(1))">{{ engine.get(1) }}</a>) or you can fork the engine and include it in your marketplace.
         </p>
       </div>
     </details>
@@ -123,11 +123,13 @@
   import { Component, Vue } from "vue-property-decorator"
   import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
   import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
+  import { getEtherscanAddressUrl } from "@/lib/etherscan"
 
   @Component
   export default class Faq extends Vue {
     registry: Map<number, string> = new Map()
     engine: Map<number, string> = new Map()
+    getEtherscanAddressUrl: Function = getEtherscanAddressUrl
 
     created() {
       this.registry = RoyaltyRegistryAddresses

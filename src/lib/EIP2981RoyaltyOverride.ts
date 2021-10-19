@@ -1,6 +1,6 @@
 import { ethers } from "ethers"
-import { EIP2981RoyaltyOverrideABI } from "../abi/EIP2981RoyaltyOverride.json"
-import { EIP2981RoyaltyOverrideFactoryABI } from "../abi/EIP2981RoyaltyOverrideFactory.json"
+import { EIP2981RoyaltyOverrideABI } from "@/abi/EIP2981RoyaltyOverride.json"
+import { EIP2981RoyaltyOverrideFactoryABI } from "@/abi/EIP2981RoyaltyOverrideFactory.json"
 
 const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
   [1, '0x1Df22edCca5DBD944474b44d9121cB833CDBb336'],
