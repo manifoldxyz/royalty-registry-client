@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import HomePage from "@/views/HomePage.vue"
 import LookupView from "@/views/LookupView.vue"
 
 if (!process || process.env.NODE_ENV !== 'test') {
@@ -10,7 +11,7 @@ export const routes = [
   {
     path: '/',
     name: 'HomePage',
-    redirect: '/lookup'
+    component: HomePage,
   },
   {
     path: '/lookup',

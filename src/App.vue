@@ -1,19 +1,22 @@
 <template>
   <div id="app">
-    <template v-if="loaded">
-      <template v-if="hasWallet">
+    <template v-if="hasWallet">
+      <template v-if="supportedNetwork">
         <app-header />
         <router-view></router-view>
       </template>
       <template v-else>
-        <div class="install-wallet">
+        <div class="unsupported-network">
           <h1>RoyaltyRegistry.eth</h1>
-          <span>Please Install a Wallet</span>
+          <span>Only Mainnet, Ropsten, and Rinkeby chains are supported.</span>
         </div>
       </template>
     </template>
     <template v-else>
-      <span class="spinner"></span>
+      <div class="install-wallet">
+        <h1>RoyaltyRegistry.eth</h1>
+        <span>Please Install a Wallet</span>
+      </div>
     </template>
   </div>
 </template>
@@ -22,18 +25,16 @@
   import { ethers } from "ethers"
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import AppHeader from "@/components/AppHeader.vue"
-  import LandingView from "@/views/LandingView.vue"
 
   @Component({
     components: {
       AppHeader,
-      LandingView
     }
   })
   export default class App extends Vue {
-    loaded: boolean = false
     hasWallet: boolean = false
-    ethersProvider: any
+    ethersProvider: ethers.providers.Web3Provider
+    supportedNetwork: boolean = true
 
     async created() {
       //@ts-ignore
@@ -41,22 +42,23 @@
         this.hasWallet = true
         //@ts-ignore
         this.ethersProvider = new ethers.providers.Web3Provider(window.ethereum)
+        //@ts-ignore
         this.ethersProvider.provider.on("chainChanged", (chainId) => {
-          this.$store.commit('setNetwork', parseInt(chainId))
+          this.setNetwork(parseInt(chainId))
           this.$router.push('/')
         })
-        this.$store.commit('setNetwork', (await this.ethersProvider.getNetwork()).chainId)
+        this.setNetwork((await this.ethersProvider.getNetwork()).chainId)
       }
     }
 
-    mounted() {
-      setTimeout(() => {
-        this.loaded = true
-      }, 1000)
-    }
-
-    async handleConnection() {
-
+    setNetwork(chainId: number) {
+      if ([1,3,4].indexOf(chainId) >= 0) {
+        this.supportedNetwork = true
+        this.$store.commit('setNetwork', chainId)
+      } else {
+        this.supportedNetwork = false
+        this.$store.commit('setNetwork', undefined)
+      }
     }
   }
 </script>
@@ -69,6 +71,7 @@
     overflow-x: hidden;
     overflow-y: scroll;
     display: flex;
+    justify-content: center;
 
     .spinner {
       margin: 0 auto;
@@ -76,7 +79,8 @@
       transform: scale(1.25);
     }
 
-    .install-wallet {
+    .install-wallet,
+    .unsupported-network {
       width: 100%;
       height: 100%;
       display: flex;

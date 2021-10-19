@@ -16,9 +16,9 @@
       <span :class="{selected: $store.state.network == 1}">Mainnet</span>
       <span :class="{selected: $store.state.network == 3}">Ropsten</span>
       <span :class="{selected: $store.state.network == 4}">Rinkeby</span>
-      <div class="header-networks-addresses">
-        <div><span>Engine:</span><span>{{ engine.get($store.state.network) }}</span></div>
-        <div><span>Registry:</span><span>{{ registry.get($store.state.network) }}</span></div>
+      <div class="header-networks-addresses" v-if="$store.state.network">
+        <div><span>Engine:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
+        <div><span>Registry:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
       </div>
     </div>
   </header>
@@ -36,6 +36,15 @@
     created() {
       this.registry = RoyaltyRegistryAddresses
       this.engine = RoyaltyEngineV1Addresses
+    }
+    getEtherscanUrl(address) {
+      if (this.$store.state.network == 1) {
+        return `https://etherscan.io/address/${address}`
+      } else if (this.$store.state.network == 3) {
+        return `https://ropsten.etherscan.io/address/${address}`
+      } else if (this.$store.state.network == 4) {
+        return `https://rinkeby.etherscan.io/address/${address}`
+      }
     }
   }
 </script>
@@ -123,7 +132,8 @@
           position: relative;
           overflow: visible;
 
-          span {
+          span,
+          a {
             font-size: 7.33px;
 
             &:first-child {
@@ -132,6 +142,10 @@
               top: 0;
               right: calc(100% + 8px);
             }
+          }
+
+          a:hover {
+            text-decoration: underline;
           }
         }
       }

@@ -1,6 +1,6 @@
 <template>
   <div class="lookup-toggle" @click="toggle">
-    <div :class="{selected: selected == 'url'}">
+    <div :class="{selected: !lookupById}">
       <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M5 0L0 5H10L5 0Z" fill="black" />
       </svg>
@@ -8,7 +8,7 @@
         By URL
       </span>
     </div>
-    <div :class="{selected: selected == 'id'}">
+    <div :class="{selected: lookupById}">
       <svg width="10" height="5" viewBox="0 0 10 5" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M5 5L10 -4.76837e-07L-5.1656e-07 -1.35107e-06L5 5Z" fill="black" />
       </svg>
@@ -21,18 +21,10 @@
 
   @Component
   export default class LookupToggle extends Vue {
-    @Prop({ type: String, required: true }) selected: string
+    @Prop({ type: Boolean, required: true }) lookupById: boolean
 
     toggle() {
-      let toggle = ''
-
-      if (this.selected == 'url') {
-        toggle = 'id'
-      } else {
-        toggle = 'url'
-      }
-
-      this.$emit('toggle', toggle)
+      this.$emit('toggle')
     }
   }
 </script>

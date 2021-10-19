@@ -1,24 +1,25 @@
 <template>
   <div class="lookup-bar">
-    <lookup-toggle :selected="lookupBy" @toggle="lookupBy = $event" />
-    <lookup-by-id v-if="lookupBy == 'id'" @values="setValues($event)" />
-    <lookup-by-url v-if="lookupBy == 'url'" @values="setValues($event)" />
-    <div class="lookup-eth-value bar-field">
-      <label>Eth Value</label>
-      <input type="text" placeholder="0000" v-model="ethValue" @focus="selectAll" />
-    </div>
+    <lookup-toggle :lookup-by-id="lookupById" @toggle="lookupById = !lookupById" />
+    <lookup-by-id v-if="lookupById" @values="setValues($event)" />
+    <lookup-by-url v-else @values="setValues($event)" />
+    <selectable-number-field
+      :class="'lookup-eth-value'"
+      label="Eth Value"
+      placeholder="0000"
+      :model="amount"
+      @change="amount = $event"
+    />
     <button :disabled="disabled" @click="submit">
-      <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <g opacity="1">
-          <circle cx="12.5" cy="12.5" r="8.33883" transform="rotate(-45 12.5 12.5)" stroke="black" />
-          <path d="M18.4896 17.9688L23.1771 22.6563" stroke="black" />
-        </g>
-      </svg>
+      <img src="@/assets/images/icons/search.svg" />
     </button>
   </div>
 </template>
 <script lang="ts">
+  import { ethers } from "ethers"
   import { Component, Vue, Watch } from "vue-property-decorator"
+  import { isAddress } from "@/lib/addressValidation"
+  import SelectableNumberField from "./SelectableNumberField.vue"
   import LookupToggle from "./LookupToggle.vue"
   import LookupById from "./LookupById.vue"
   import LookupByUrl from "./LookupByURL.vue"
@@ -26,44 +27,43 @@
 
   @Component({
     components: {
+      SelectableNumberField,
       LookupToggle,
       LookupById,
       LookupByUrl
     }
   })
   export default class LookupBar extends Vue {
-    lookupBy: string = 'url'
+    lookupById: boolean = false
     address: string = ''
     id: string = ''
-    ethValue: number = 1
+    amount: string = "1"
     disabled: boolean = true
 
     created() {
-      const _lookupBy = getCookie('lookupBy')
-      if (_lookupBy) {
-        this.lookupBy = _lookupBy
+      const lookupBy = getCookie('lookupBy')
+
+      if (lookupBy) {
+        if (lookupBy == 'id') {
+          this.lookupById = true
+        } else {
+          this.lookupById = false
+        }
       }
     }
 
-    @Watch('lookupBy')
+    @Watch('lookupById')
     lookupHandler(value, oldValue) {
-      setCookie('lookupBy', value, 10)
+      if (value) {
+        setCookie('lookupBy', 'id', 10)
+      } else {
+        setCookie('lookupBy', 'url', 10)
+      }
     }
 
-    @Watch('ethValue')
+    @Watch('amount')
     ethHandler(value, oldValue) {
-      if (value.length == 0) {
-        this.ethValue = 1
-        this.validate()
-        return
-      }
-      if (!isNaN(parseInt(value))) {
-        this.ethValue = parseInt(value)
-      } else {
-        this.ethValue = oldValue
-      }
       this.validate()
-      return
     }
 
     setValues(values) {
@@ -80,10 +80,10 @@
       if (
         this.address &&
         this.id &&
-        this.address.length &&
+        this.amount &&
+        isAddress(this.address) &&
         this.id.length &&
-        this.ethValue &&
-        this.ethValue > 0
+        parseInt(this.amount) > 0
       ) {
         this.disabled = false
       }
@@ -96,7 +96,7 @@
       this.$emit('submit', {
         address: this.address,
         id: this.id,
-        value: this.ethValue
+        amount: ethers.utils.parseEther(this.amount)
       })
     }
   }
@@ -123,39 +123,20 @@
       overflow: visible;
     }
 
-    .lookup-eth-value {
-      position: relative;
-
-      label {
-        left: auto;
-        right: 12px;
-        text-align: right;
-      }
-
-      input {
-        text-align: right;
-      }
-    }
-
     button {
       background: white;
       transition: background 0.25s;
 
-      svg {
+      img {
         transform: translateX(-1.5px);
-
-        g {
-          transition: opacity 0.25s;
-        }
+        transition: opacity 0.25s;
       }
 
       &[disabled] {
         pointer-events: none;
 
-        svg {
-          g {
-            opacity: 0.25;
-          }
+        img {
+          opacity: 0.25;
         }
       }
 
@@ -165,13 +146,26 @@
         &:hover {
           background: #f7f7f7;
 
-          svg {
-            g {
-              opacity: 1;
-            }
+          img {
+            opacity: 1;
           }
         }
       }
+    }
+  }
+</style>
+<style lang="scss">
+  .lookup-eth-value {
+    position: relative;
+
+    label {
+      left: auto !important;
+      right: 12px;
+      text-align: right !important;
+    }
+
+    input {
+      text-align: right;
     }
   }
 </style>

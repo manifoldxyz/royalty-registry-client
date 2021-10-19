@@ -1,27 +1,34 @@
 <template>
-  <div id="lookup-view" :class="{results: showResults}">
+  <div id="lookup-view" :class="{results: showResultsLayout}">
     <div class="lookup-view-head">
       <h2>Providing Access to On-Chain Royalties</h2>
       <lookup-bar @submit="lookup($event)" />
     </div>
     <div class="lookup-view-body">
-      <template v-if="showResults">
-        <div class="token-details-container">
-          <template v-if="loadingResults">
-            <span class="spinner"></span>
-          </template>
-          <template v-else>
-            <token-details :values="tokenDetails" />
-          </template>
-        </div>
-        <div class="token-royalties-container">
-          <template v-if="loadingResults">
-            <span class="spinner"></span>
-          </template>
-          <template v-else>
-            <token-royalties />
-          </template>
-        </div>
+      <template v-if="showResultsLayout">
+        <template v-if="!resultsErrorMsg">
+          <div class="token-details-container">
+            <template v-if="loadingResults">
+              <span class="spinner"></span>
+            </template>
+            <template v-else>
+              <token-details :values="tokenDetails" />
+            </template>
+          </div>
+          <div class="token-royalties-container">
+            <template v-if="loadingResults">
+              <span class="spinner"></span>
+            </template>
+            <template v-else>
+              <token-royalties :royalty-data="royaltyData" :amount="tokenDetails.amount" />
+            </template>
+          </div>
+        </template>
+        <template v-else>
+          <div class="error-container">
+            <h3>Error: {{ resultsErrorMsg }}.</h3>
+          </div>
+        </template>
       </template>
       <collaborators />
       <faq />
@@ -49,7 +56,8 @@
   })
   export default class LookupView extends Vue {
     loadingResults: boolean = false
-    showResults: boolean = false
+    showResultsLayout: boolean = false
+    resultsErrorMsg: string = ""
     tokenDetails: object = {}
     royaltyData: RoyaltyInfo[] = []
     engine: RoyaltyEngineV1
@@ -60,15 +68,23 @@
     }
 
     async lookup(values) {
-      this.showResults = true
+      this.resultsErrorMsg = ""
       this.loadingResults = true
+      this.showResultsLayout = true
       this.tokenDetails = values
+      try {
+        const data = await this.engine.getRoyalty(values.address, values.id, values.amount)
 
-      const royaltyData: RoyaltyInfo[] = await this.engine.getRoyalty(values.address, values.id, ethers.BigNumber.from (values.value))
-      console.log(royaltyData)
-      setTimeout(() => {
-        this.loadingResults = false
-      }, 1000)
+        if (data.length == 0) {
+          this.resultsErrorMsg = 'No on-chain royalties configured'
+        } else {
+          this.royaltyData = data
+        }
+      } catch (e) {
+        console.log(e)
+        this.resultsErrorMsg = 'Address not recognized'
+      }
+      this.loadingResults = false
     }
   }
 </script>
@@ -111,6 +127,19 @@
     .lookup-view-body {
       padding: 130px var(--padding);
 
+      .error-container {
+        max-width: 900px;
+        min-height: 300px;
+        margin: 0 auto;
+        margin-bottom: 130px;
+        padding: 10px;
+
+        h3 {
+          text-align: center;
+        }
+      }
+
+      .error-container,
       .token-details-container,
       .token-royalties-container {
         display: grid;
