@@ -1,10 +1,50 @@
 import { ethers } from "ethers"
 import { EIP2981RoyaltyOverrideABI } from "../abi/EIP2981RoyaltyOverride.json"
+import { EIP2981RoyaltyOverrideFactoryABI } from "../abi/EIP2981RoyaltyOverrideFactory.json"
 
+const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
+  [1, '0x1Df22edCca5DBD944474b44d9121cB833CDBb336'],
+  [3, '0x7ef865963D3A005670b8F8Df6aed23e456FA75e0'],
+  [4, '0x80ca1Dc17f79Bb819a14805aB2cA6ab6505f3071'],
+])
 
 interface RoyaltyInfo {
   recipient: string,
   bps: number
+}
+
+class EIP2981RoyaltyOverrideFactory {
+  private factoryContract_: ethers.Contract | null = null
+  private ethersProvider_: ethers.providers.Web3Provider
+  
+  public constructor(provider: any) {
+    this.ethersProvider_ = new ethers.providers.Web3Provider(provider)
+    //@ts-ignore
+    this.ethersProvider_.provider.on("chainChanged", () => { this.factoryContract_ = null })
+  }
+
+  /**
+   * Helper to get a contract instance
+   * 
+   * @returns ethers.Contract
+   */
+   private async _getContractInstance(): Promise<ethers.Contract> {
+    const network = await this.ethersProvider_.getNetwork()
+    const contractAddress = RoyaltyOverrideFactoryAddresses.get(network.chainId)
+    if (!contractAddress) throw new Error("Network not supported")
+    if (!this.factoryContract_) {
+      this.factoryContract_ = new ethers.Contract(contractAddress!, EIP2981RoyaltyOverrideFactoryABI as ethers.ContractInterface, this.ethersProvider_)
+      this.factoryContract_.connect(this.ethersProvider_.getSigner())
+    }
+    return this.factoryContract_
+  }
+
+  /**
+   * Create an override contract
+   */
+  private async createOverrideContract() {
+    return (await this._getContractInstance()).createOverride()
+  }
 }
 
 class EIP2981RoyaltyOverride {
