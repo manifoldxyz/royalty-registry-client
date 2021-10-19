@@ -3,7 +3,7 @@
     <label>
       {{ label }}
     </label>
-    <input type="text" :placeholder="placeholder" :value="model_" @keyup="model_ = $event.target.value" @focus="selectAll" />
+    <input type="text" :placeholder="placeholder" :value="model_" @keyup="model_ = $event.target.value" @paste="model_ = $event.target.value" @focus="selectAll" />
   </div>
 </template>
 <script lang="ts">

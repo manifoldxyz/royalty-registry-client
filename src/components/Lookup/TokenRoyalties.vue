@@ -19,7 +19,7 @@
       </tr>
       <template v-else>
         <tr v-for="record in data" :key="record.address">
-          <td>{{ record.address }}</td>
+          <td><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, record.address)">{{ record.address }}</a></td>
           <td>{{ record.percentage }}</td>
           <td>{{ record.eth }}</td>
         </tr>
@@ -31,11 +31,13 @@
   import { ethers } from "ethers"
   import { Component, Prop, Vue } from "vue-property-decorator"
   import { RoyaltyInfo } from "@/lib/RoyaltyEngineV1"
+  import { getEtherscanAddressUrl } from "@/lib/etherscan"
 
   @Component
   export default class TokenRoyalties extends Vue {
     @Prop({ type: Array, required: true }) royaltyData: RoyaltyInfo[]
     @Prop({ type: Object, required: true }) amount: ethers.BigNumber
+    getEtherscanAddressUrl: Function = getEtherscanAddressUrl
     data: any[] = []
     dataIsEmpty: boolean = false
 
@@ -87,6 +89,14 @@
 
         &:first-child {
           text-align: left;
+        }
+
+        a {
+          font-size: inherit;
+
+          &:hover {
+            text-decoration: underline;
+          }
         }
 
         em {

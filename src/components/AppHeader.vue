@@ -17,8 +17,8 @@
       <span :class="{selected: $store.state.network == 3}">Ropsten</span>
       <span :class="{selected: $store.state.network == 4}">Rinkeby</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
-        <div><span>Registry:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
-        <div><span>Engine:</span><a target="_blank" :href="getEtherscanUrl(engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
+        <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
+        <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
       </div>
     </div>
   </header>
@@ -27,24 +27,18 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
   import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
+  import { getEtherscanAddressUrl } from "@/lib/etherscan"
 
   @Component
   export default class AppHeader extends Vue {
     registry: Map<number, string> = new Map()
     engine: Map<number, string> = new Map()
+    getEtherscanAddressUrl: Function = getEtherscanAddressUrl
 
     created() {
       this.registry = RoyaltyRegistryAddresses
       this.engine = RoyaltyEngineV1Addresses
-    }
-    getEtherscanUrl(address) {
-      if (this.$store.state.network == 1) {
-        return `https://etherscan.io/address/${address}`
-      } else if (this.$store.state.network == 3) {
-        return `https://ropsten.etherscan.io/address/${address}`
-      } else if (this.$store.state.network == 4) {
-        return `https://rinkeby.etherscan.io/address/${address}`
-      }
+      this.getEtherscanAddressUrl = getEtherscanAddressUrl
     }
   }
 </script>
