@@ -53,7 +53,10 @@ export class RoyaltyEngineV1 {
       let recipient = result[0][i]
       // ENS lookup
       try {
-        recipient = await this.ethersProvider_.lookupAddress(recipient)
+        const _recipient = await this.ethersProvider_.lookupAddress(recipient)
+        if (_recipient) {
+          recipient = _recipient
+        }
       } catch {
         // Do nothing, no ENS name is ok
       }

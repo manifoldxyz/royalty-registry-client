@@ -81,7 +81,6 @@
           this.royaltyData = data
         }
       } catch (e) {
-        console.log(e)
         this.resultsErrorMsg = 'Address not recognized'
       }
       this.loadingResults = false
@@ -164,7 +163,7 @@
 
     &.results {
       .lookup-view-head {
-        height: 130px;
+        height: 180px;
 
         h2 {
           display: none;
