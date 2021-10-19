@@ -1,0 +1,54 @@
+{
+  "EIP2981RoyaltyOverrideFactoryABI": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "origin",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "newEIP2981RoyaltyOverride",
+          "type": "address"
+        }
+      ],
+      "name": "EIP2981RoyaltyOverrideCreated",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "originAddress",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "createOverride",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ]
+}
