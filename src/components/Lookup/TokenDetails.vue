@@ -12,17 +12,19 @@
       </div>
       <div>
         <span>Etherscan</span>
-        <a target="_blank" :href="`https://etherscan.io/token/${values.address}?a=${values.id}`">https://etherscan.io/token/{{ values.address }}?a={{ values.id }}</a>
+        <a target="_blank" :href="getEtherscanTokenUrl($store.state.network, values.address, values.id)">{{ getEtherscanTokenUrl($store.state.network, values.address, values.id) }}</a>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts">
   import { Component, Prop, Vue } from "vue-property-decorator"
+  import { getEtherscanTokenUrl } from "@/lib/etherscan"
 
   @Component
   export default class TokenDetails extends Vue {
     @Prop({ type: Object, required: true}) values: object
+    getEtherscanTokenUrl: Function = getEtherscanTokenUrl
   }
 </script>
 <style lang="scss" scoped>
