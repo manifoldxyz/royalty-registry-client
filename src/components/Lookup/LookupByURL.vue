@@ -1,11 +1,16 @@
 <template>
-  <selectable-field
-    label="Search By URL"
-    placeholder="https://example.org/0x0123456789abcdef/1"
-    :class="{error}"
-    :model="url"
-    @change="url = $event"
-  />
+  <div id="lookup-by-url">
+    <selectable-field
+      label="Search By URL"
+      placeholder="https://example.org/0x0123456789abcdef/1"
+      :class="{error}"
+      :model="url"
+      @change="url = $event"
+    />
+    <div class="warning" :class="{show: warning}">
+      <span>Mismatch between connected network and listing URL</span>
+    </div>
+  </div>
 </template>
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
@@ -39,22 +44,24 @@
       let address = ''
       let id = ''
 
-      if (
-        (network == 1 && (url.toLowerCase().indexOf('rinkeby') >= 0 || url.toLowerCase().indexOf('testnet') >= 0)) ||
-        (network == 3 && url.toLowerCase().indexOf('ropsten')) ||
-        (network == 4 && url.toLowerCase().indexOf('rinkeby') < 0 && url.toLowerCase().indexOf('testnet') < 0)
-      ){
-        showWrongNetworkWarning = true
-      }
+      if (url.length) {
+        if (
+          (network == 1 && (url.toLowerCase().indexOf('rinkeby') >= 0 || url.toLowerCase().indexOf('testnet') >= 0)) ||
+          (network == 3 && url.toLowerCase().indexOf('ropsten') < 0 && url.toLowerCase().indexOf('testnet') < 0) ||
+          (network == 4 && url.toLowerCase().indexOf('rinkeby') < 0 && url.toLowerCase().indexOf('testnet') < 0)
+        ){
+          showWrongNetworkWarning = true
+        }
 
-      for (let i = 0; i < re_tests.length; i++) {
-        const result = re_tests[i].exec(url)
+        for (let i = 0; i < re_tests.length; i++) {
+          const result = re_tests[i].exec(url)
 
-        if (result !== null) {
-          showError = false
-          address = result[2]
-          id = result[3]
-          break
+          if (result !== null) {
+            showError = false
+            address = result[2]
+            id = result[3]
+            break
+          }
         }
       }
 
@@ -68,3 +75,51 @@
     }
   }
 </script>
+<style lang="scss" scoped>
+  #lookup-by-url {
+    width: 100%;
+    height: 100%;
+    background: #ddd;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1px;
+    overflow: visible;
+    position: relative;
+
+    > div:first-child {
+      background: white;
+
+      &.error {
+        input {
+          outline: 1px solid rgba(255, 0, 0, 0.25);
+          color: rgba(255, 0, 0, 0.75);
+        }
+      }
+    }
+
+    .warning {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 30px;
+      background: #d8b53c11;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+
+      span {
+        color: #c1990d;
+        text-transform: uppercase;
+        font-size: 11px;
+      }
+
+      &.show {
+        opacity: 1;
+      }
+    }
+  }
+</style>
