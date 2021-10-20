@@ -12,7 +12,7 @@
               <span class="spinner"></span>
             </template>
             <template v-else>
-              <token-details :values="tokenDetails" />
+              <token-details :values="tokenDetails" :royalty-spec="royaltySpec" />
             </template>
           </div>
           <div class="token-royalties-container">
@@ -36,9 +36,10 @@
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue, Prop } from 'vue-property-decorator'
-  import { ethers } from "ethers"
+  import { Component, Vue } from 'vue-property-decorator'
+  import { RoyaltyRegistry } from "@/lib/RoyaltyRegistry"
   import { RoyaltyInfo, RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
+  import { RoyaltySpecChecker } from "@/lib/RoyaltySpecChecker"
   import LookupBar from "@/components/Lookup/LookupBar.vue"
   import TokenDetails from "@/components/Lookup/TokenDetails.vue"
   import TokenRoyalties from "@/components/Lookup/TokenRoyalties.vue"
@@ -60,15 +61,25 @@
     resultsErrorMsg: string = ""
     tokenDetails: object = {}
     royaltyData: RoyaltyInfo[] = []
+    royaltyOverrideAddress: string | null = null
+    royaltySpec: string | null = null
+    registry: RoyaltyRegistry
     engine: RoyaltyEngineV1
+    specChecker: RoyaltySpecChecker
 
     created() {
       //@ts-ignore
+      this.registry = new RoyaltyRegistry(window.ethereum)
+      //@ts-ignore
       this.engine = new RoyaltyEngineV1(window.ethereum)
+      //@ts-ignore
+      this.specChecker = new RoyaltySpecChecker(window.ethereum)
     }
 
     async lookup(values) {
       this.resultsErrorMsg = ""
+      this.royaltyOverrideAddress = null
+      this.royaltySpec = null
       this.loadingResults = true
       this.showResultsLayout = true
       this.tokenDetails = values
@@ -80,6 +91,15 @@
         } else {
           this.royaltyData = data
         }
+
+        const lookupAddress = await this.registry.getRoyaltyLookupAddress(values.address)
+        if (lookupAddress.toLowerCase() != values.address.toLowerCase()) {
+          this.royaltyOverrideAddress = lookupAddress
+          this.royaltySpec = await this.specChecker.getRoyaltySpec(lookupAddress)
+        } else {
+          this.royaltySpec = await this.specChecker.getRoyaltySpec(values.address)
+        }
+
       } catch (e) {
         this.resultsErrorMsg = 'Address not recognized'
       }

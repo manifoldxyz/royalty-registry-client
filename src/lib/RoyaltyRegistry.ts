@@ -7,7 +7,7 @@ export const RoyaltyRegistryAddresses: Map<number, string> = new Map([
    [4, '0xc9198CbbB57708CF31e0caBCe963c98e60d333c3'],
 ])
 
-class RoyaltyRegistry {
+export class RoyaltyRegistry {
   private registryContract_: ethers.Contract | null = null
   private registryContractReadOnly_: ethers.Contract | null = null
   private ethersProvider_: ethers.providers.Web3Provider
