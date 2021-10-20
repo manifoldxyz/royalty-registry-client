@@ -9,8 +9,8 @@
     </svg>
     <nav>
       <router-link to="/">Lookup</router-link>
-      <a class="disabled">Configure<span>Coming Soon</span></a>
-      <a href="#faq">FAQ</a>
+      <router-link to="/configure">Configure</router-link>
+      <a href="/lookup#faq">FAQ</a>
     </nav>
     <div class="header-networks">
       <span :class="{selected: $store.state.network == 1}">Mainnet</span>

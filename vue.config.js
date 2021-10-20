@@ -8,7 +8,6 @@ module.exports = {
         prependData: `
           @import "@/scss/_reset.scss";
           @import "@/scss/_base.scss";
-          @import "@/scss/_overwrites.scss";
         `
       }
     }
