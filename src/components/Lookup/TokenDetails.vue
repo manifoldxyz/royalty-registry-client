@@ -6,6 +6,10 @@
         <span>Address</span>
         <span>{{ values.address }}</span>
       </div>
+      <div v-if="royaltySpec">
+        <span>Royalty Spec</span>
+        <span>{{ royaltySpec }} <a v-if="royaltyOverrideAddress" :href="getEtherscanAddressUrl($store.state.network, royaltyOverrideAddress)">(overridden)</a></span>
+      </div>
       <div>
         <span>ID</span>
         <span>{{ values.id }}</span>
@@ -19,12 +23,15 @@
 </template>
 <script lang="ts">
   import { Component, Prop, Vue } from "vue-property-decorator"
-  import { getEtherscanTokenUrl } from "@/lib/etherscan"
+  import { getEtherscanTokenUrl, getEtherscanAddressUrl } from "@/lib/etherscan"
 
   @Component
   export default class TokenDetails extends Vue {
     @Prop({ type: Object, required: true}) values: object
+    @Prop({ type: String, required: false }) royaltyOverrideAddress: string | null
+    @Prop({ type: String, required: false }) royaltySpec: string | null
     getEtherscanTokenUrl: Function = getEtherscanTokenUrl
+    getEtherscanAddressUrl: Function = getEtherscanAddressUrl
   }
 </script>
 <style lang="scss" scoped>
@@ -60,6 +67,7 @@
 
         &:last-child {
           font-size: 15px;
+          text-transform: none;
         }
       }
 
