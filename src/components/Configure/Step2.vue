@@ -61,7 +61,7 @@
       //@ts-ignore
       const tokenAddress = this.$parent.tokenAddress
 
-      this.overrideAllowed = this.registry.overrideAllowed(tokenAddress)
+      this.overrideAllowed = await this.registry.overrideAllowed(tokenAddress)
       console.log(this.overrideAllowed)
       this.tokenSpec = await this.specChecker.getRoyaltySpec(tokenAddress)
       const lookupAddress = await this.registry.getRoyaltyLookupAddress(tokenAddress)
