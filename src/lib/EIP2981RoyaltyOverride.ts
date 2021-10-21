@@ -70,6 +70,7 @@ export class EIP2981RoyaltyOverride {
   private async _getContractInstance(): Promise<ethers.Contract> {
     if (!this.overrideContract_) {
       this.overrideContract_ = new ethers.Contract(this.overrideAddress_, EIP2981RoyaltyOverrideABI as ethers.ContractInterface, this.ethersProvider_)
+      this.overrideContract_ = this.overrideContract_.connect(this.ethersProvider_.getSigner())
       await this._updateWallet() 
     }
     return this.overrideContract_
