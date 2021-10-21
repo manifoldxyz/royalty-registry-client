@@ -55,6 +55,7 @@
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
     tokenSpec: string = ""
     overrideAddress: string = ""
+    overrideAllowed: boolean = false
 
     async activate() {
       //@ts-ignore
