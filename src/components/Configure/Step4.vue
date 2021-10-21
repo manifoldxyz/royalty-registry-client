@@ -1,11 +1,12 @@
 <template>
-  <div class="step4">
-    <div class="step4-content">
+  <div class="step step4">
+    <div :class="{show: loaded}" class="step4-content">
       <span class="step-label">Step 4 / 4 : Configure Royalty Overrides</span>
       <h2>Token Contract Default Royalty</h2>
       <span class="text">Set a default policy for all tokens on this contract.</span>
       <div class="bar default-royalty-bar">
         <selectable-number-field
+          :tabindex="active ? 0 : -1"
           class="right-align"
           label="Royalty Basis Points"
           placeholder="0"
@@ -15,68 +16,54 @@
         />
         <span>BPS</span>
       </div>
-      <button class="full">Save Default Royalty</button>
+      <button class="full" :tabindex="active ? 1 : -1">Save Default Royalty</button>
       <h2>Per Token Royalties</h2>
       <span class="text">Fetch and Configure Overrides by Token ID.</span>
       <div class="bar token-id-fetch-bar">
         <selectable-number-field
+          :tabindex="active ? 2 : -1"
           label="Fetch Token ID"
           placeholder="0"
           :model="defaultBPS"
           @change="defaultBPS = $event"
         />
-        <button>
+        <button :tabindex="active ? 3 : -1">
           <img src="@/assets/images/icons/go.svg" />
         </button>
       </div>
       <div class="token-id-overrides">
         <div class="bar token-id-override-bar">
           <selectable-number-field
+            :tabindex="active ? 4 : -1"
             disabled
             label="Token ID"
             :model="'1'"
           />
           <selectable-field
+            :tabindex="active ? 5 : -1"
             label="Recipient Address"
             placeholder="0x0123456789abcdef"
             fontsize="22"
             :model="'0x0123456789abcdef'"
           />
           <selectable-number-field
+            :tabindex="active ? 6 : -1"
             label="Royalty Basis Points"
             class="right-align"
             placeholder="0"
             :model="'1'"
           />
-          <button>Save</button>
-        </div>
-        <div class="bar token-id-override-bar">
-          <selectable-number-field
-            disabled
-            label="Token ID"
-            :model="'1'"
-          />
-          <selectable-field
-            label="Recipient Address"
-            placeholder="0x0123456789abcdef"
-            fontsize="22"
-            :model="'0x0123456789abcdef'"
-          />
-          <selectable-number-field
-            label="Royalty Basis Points"
-            class="right-align"
-            placeholder="0"
-            :integer="true"
-            :model="'1'"
-          />
-          <button>Save</button>
+          <button :tabindex="active ? 7 : -1">Save</button>
         </div>
       </div>
     </div>
+    <load-screen v-if="!loaded" />
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue, Watch } from "vue-property-decorator"
+  import { mixins } from "vue-class-component"
+  import { Component, Watch } from "vue-property-decorator"
+  import StepMixin from "@/mixins/StepMixin"
   import SelectableField from "@/components/common/SelectableField.vue"
   import SelectableNumberField from "@/components/common/SelectableNumberField.vue"
 
@@ -86,7 +73,7 @@
       SelectableNumberField
     }
   })
-  export default class Step4 extends Vue {
+  export default class Step4 extends mixins(StepMixin) {
     defaultBPS: string = ""
 
   }

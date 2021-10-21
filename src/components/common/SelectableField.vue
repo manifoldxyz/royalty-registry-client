@@ -5,6 +5,7 @@
     </label>
     <input
       type="text"
+      :tabindex="tabindex"
       :disabled="disabled"
       :placeholder="placeholder"
       :value="model_"
@@ -23,7 +24,8 @@
     @Prop({ type: String, required: true }) label: string
     @Prop({ type: String, required: true }) model: string
     @Prop({ type: String, required: false, default: '' }) placeholder: string
-    @Prop({ type: Number, required: false, default: 24 }) fontsize: number
+    @Prop({ type: String, required: false, default: "24" }) fontsize: string
+    @Prop({ type: Number, required: false, default: -1 }) tabindex: number
     @Prop({ type: Boolean, required: false, default: false }) disabled: boolean
     model_: string | undefined = ""
 

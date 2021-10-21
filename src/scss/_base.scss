@@ -2,6 +2,7 @@
   --primaryColor: white;
   --padding: 32px;
   --border: 1px solid #ddd;
+  --bg: #f8f8f8;
 
   @media screen and (max-width: 501px) {
     --padding: 14px;
@@ -41,7 +42,7 @@
 }
 
 body {
-  background: #f8f8f8;
+  background: var(--bg);
 }
 
 .bar {
@@ -87,6 +88,43 @@ body {
 
     a {
       text-decoration: underline;
+    }
+  }
+}
+
+.step {
+  background: var(--bg);
+  position: relative;
+  width: 100%;
+  height: 100vh;
+
+  > div:not(#load-screen) {
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.25s, transform 0.25s;
+    transition-delay: 0.75s;
+
+    &.show {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: initial;
+    }
+  }
+
+  &:not(.step1) {
+    padding: 0 var(--padding);
+    display: grid;
+    align-items: center;
+    overflow-y: scroll;
+
+    > div:not(#load-screen) {
+      width: 100%;
+      max-width: 900px;
+      height: min-content;
+      margin: 120px auto;
+      display: grid;
+      align-items: center;
     }
   }
 }

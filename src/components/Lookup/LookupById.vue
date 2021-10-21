@@ -4,7 +4,7 @@
       :class="{error}"
       label="Search By Token Address"
       placeholder="0x0123456789abcdef"
-      :fontsize="18"
+      fontsize="18"
       :model="address"
       @change="address = $event"
     />

@@ -1,6 +1,6 @@
 <template>
-  <div class="step3">
-    <div class="step3-content">
+  <div class="step step3">
+    <div :class="{show: loaded}" class="step3-content">
       <span class="step-label">Step 3 / 4 : Deploy Override Contract</span>
       <h2>Deploying New Override Contract</h2>
       <span class="text">Sending...</span>
@@ -14,21 +14,21 @@
       <span class="text">Setting as Override Contract for 0x0123456789abcdef...</span>
       <span class="text">Set.</span>
       <h2>Configure New Override</h2>
-      <button class="full">Configure Override</button>
+      <button :tabindex="active ? 0 : -1" class="full">Configure Override</button>
     </div>
+    <load-screen v-if="!loaded" />
   </div>
 </template>
 <script lang="ts">
-  import { Component, Vue, Watch } from "vue-property-decorator"
-  import SelectableField from "@/components/common/SelectableField.vue"
+  import { mixins } from "vue-class-component"
+  import { Component, Watch } from "vue-property-decorator"
+  import StepMixin from "@/mixins/StepMixin"
 
-  @Component({
-    components: {
-      SelectableField
+  @Component
+  export default class Step3 extends mixins(StepMixin) {
+    activate() {
+      this.loaded = true
     }
-  })
-  export default class Step3 extends Vue {
-
   }
 </script>
 <style lang="scss" scoped>

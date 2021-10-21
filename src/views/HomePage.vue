@@ -1,12 +1,15 @@
 <template>
-  <div id="homepage">
-    <span class="spinner"></span>
-  </div>
+  <load-screen />
 </template>
 <script lang="ts">
   import { Component, Vue } from 'vue-property-decorator'
+  import LoadScreen from "@/components/LoadScreen.vue"
 
-  @Component
+  @Component({
+    components: {
+      LoadScreen
+    }
+  })
   export default class HomePage extends Vue {
     mounted() {
       setTimeout(() => {
@@ -15,10 +18,3 @@
     }
   }
 </script>
-<style lang="scss">
-  #homepage {
-    display: grid;
-    align-items: center;
-    overflow: visible;
-  }
-</style>

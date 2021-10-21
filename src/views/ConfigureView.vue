@@ -1,13 +1,14 @@
 <template>
   <div id="configure-view">
-    <div id="configure-view-inner" :style="{'transform': `translateY(-${step}00vh)`}">
-      <step-1 />
-      <step-2 />
-      <step-3 />
-      <step-4 />
+    <div id="configure-view-inner" :style="{'transform': `translateY(-${step - 1}00vh)`}">
+      <step-1 :active="step == 1" @next="tokenAddress = $event" />
+      <step-2 :active="step == 2" @create="step = 3" @configure="configureOverride" />
+      <step-3 :active="step == 3" @next="configureOverride" />
+      <step-4 :active="step == 4" />
     </div>
     <button
-      @click="next"
+      v-show="step > 0"
+      @click="startOver"
       class="start-over"
     >
       <img src="@/assets/images/icons/top.svg" />
@@ -17,6 +18,9 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Watch } from "vue-property-decorator"
+  import { RoyaltyRegistry } from "@/lib/RoyaltyRegistry"
+  import { RoyaltyInfo, RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
+  import { RoyaltySpecChecker } from "@/lib/RoyaltySpecChecker"
   import Step1 from "@/components/Configure/Step1.vue"
   import Step2 from "@/components/Configure/Step2.vue"
   import Step3 from "@/components/Configure/Step3.vue"
@@ -32,11 +36,38 @@
   })
   export default class ConfigureView extends Vue {
     step: number = 0
+    tokenAddress: string = ""
+    overrideAddress: string = ""
 
-    next() {
-      if (this.step < 3) {
+    created() {
+      //@ts-ignore
+      this.registry = new RoyaltyRegistry(window.ethereum)
+      //@ts-ignore
+      this.engine = new RoyaltyEngineV1(window.ethereum)
+      //@ts-ignore
+      this.specChecker = new RoyaltySpecChecker(window.ethereum)
+    }
+
+    mounted() {
+      setTimeout(() => {
         this.step++
-      }
+      }, 1000)
+    }
+
+    @Watch("tokenAddress")
+    tokenAddressHandler(value) {
+      this.step = 2
+    }
+
+    configureOverride(overrideAddress) {
+      this.overrideAddress = overrideAddress
+      this.step = 4
+    }
+
+    startOver() {
+      this.tokenAddress = ""
+      this.overrideAddress = ""
+      this.step = 1
     }
   }
 </script>
@@ -46,6 +77,7 @@
     height: 100%;
     position: relative;
     overflow: hidden;
+    background: red;
 
     button.start-over {
       position: absolute;
@@ -69,7 +101,7 @@
       height: 400vh;
       position: relative;
       z-index: 0;
-      transition: transform 0.5s;
+      transition: transform 0.75s ease-in-out;
 
       .step-label {
         display: block;
@@ -116,28 +148,6 @@
 
       h2 + button.full {
         margin-top: 0;
-      }
-
-      > div {
-        width: 100%;
-        height: 100vh;
-        position: relative;
-
-        &:not(.step1) {
-          padding: 0 var(--padding);
-          display: grid;
-          align-items: center;
-          overflow-y: scroll;
-
-          > div {
-            width: 100%;
-            max-width: 900px;
-            height: min-content;
-            margin: 120px auto;
-            display: grid;
-            align-items: center;
-          }
-        }
       }
     }
   }
