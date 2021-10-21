@@ -53,7 +53,7 @@
   @Component
   export default class Step2 extends mixins(StepMixin) {
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
-    tokenSpec: string = ""
+    tokenSpec: string | null = null
     overrideAddress: string = ""
     overrideAllowed: boolean = false
 

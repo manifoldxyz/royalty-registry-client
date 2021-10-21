@@ -26,7 +26,7 @@
 
   @Component
   export default class Step3 extends mixins(StepMixin) {
-    activate() {
+    async activate() {
       this.loaded = true
     }
   }
