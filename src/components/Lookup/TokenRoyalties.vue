@@ -76,7 +76,7 @@
       width: 100%;
       height: 60px;
       display: table-row;
-      border-bottom: 1px solid #ddd;
+      border-bottom: var(--border);
 
       &:first-of-type {
         height: auto;

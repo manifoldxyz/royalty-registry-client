@@ -146,7 +146,7 @@
         grid-template-columns: 1fr 74px;
 
         button {
-          border-left: 1px solid #ddd;
+          border-left: var(--border);
           background: white;
 
           img {

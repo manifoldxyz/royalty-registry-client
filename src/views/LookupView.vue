@@ -116,7 +116,7 @@
       width: 100%;
       height: 50vh;
       background: white;
-      border-bottom: 1px solid #ddd;
+      border-bottom: var(--border);
       display: flex;
       flex-direction: column;
       justify-content: flex-end;

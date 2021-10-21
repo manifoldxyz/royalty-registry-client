@@ -1,11 +1,18 @@
 <template>
   <div id="configure-view">
-    <div id="configure-view-inner">
+    <div id="configure-view-inner" :style="{'transform': `translateY(-${step}00vh)`}">
       <step-1 />
       <step-2 />
       <step-3 />
       <step-4 />
     </div>
+    <button
+      @click="next"
+      class="start-over"
+    >
+      <img src="@/assets/images/icons/top.svg" />
+      <span>Start Over</span>
+    </button>
   </div>
 </template>
 <script lang="ts">
@@ -23,17 +30,46 @@
       Step4,
     }
   })
-  export default class ConfigureView extends Vue {}
+  export default class ConfigureView extends Vue {
+    step: number = 0
+
+    next() {
+      if (this.step < 3) {
+        this.step++
+      }
+    }
+  }
 </script>
 <style lang="scss">
   #configure-view {
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: hidden;
+
+    button.start-over {
+      position: absolute;
+      bottom: var(--padding);
+      right: var(--padding);
+      z-index: 1;
+      border: var(--border);
+      display: flex;
+      align-items: center;
+      grid-gap: 15px;
+      padding: 15px;
+
+      span {
+        font-size: 10px;
+        text-transform: uppercase;
+      }
+    }
 
     #configure-view-inner {
       width: 100%;
       height: 400vh;
-      transform: translateY(-300vh);
+      position: relative;
+      z-index: 0;
+      transition: transform 0.5s;
 
       .step-label {
         display: block;
@@ -62,7 +98,7 @@
       button.full {
         width: 100%;
         height: 60px;
-        border: 1px solid #ddd;
+        border: var(--border);
         text-transform: uppercase;
         font-size: 10px;
         margin-top: 10px;

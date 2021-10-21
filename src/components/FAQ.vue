@@ -152,10 +152,10 @@
     }
 
     details {
-      border-bottom: 1px solid #ddd;
+      border-bottom: var(--border);
 
       &:first-of-type {
-        border-top: 1px solid #ddd;
+        border-top: var(--border);
       }
 
       summary {

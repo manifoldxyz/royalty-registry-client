@@ -57,7 +57,7 @@
       height: calc(50vh + 100px - 30px);
       overflow: visible;
       background: white;
-      border-bottom: 1px solid #ddd;
+      border-bottom: var(--border);
       padding: 120px var(--padding) 0;
       display: grid;
       align-items: flex-end;
@@ -75,11 +75,12 @@
           height: 60px;
           display: grid;
           grid-template-columns: 1fr 74px;
-          border: 1px solid #ddd;
+          border: var(--border);
           overflow: visible;
+          margin-top: 40px;
 
           button {
-            border-left: 1px solid #ddd;
+            border-left: var(--border);
             background: white;
 
             img {

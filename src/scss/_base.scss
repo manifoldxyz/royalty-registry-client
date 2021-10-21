@@ -1,6 +1,7 @@
 :root {
   --primaryColor: white;
   --padding: 32px;
+  --border: 1px solid #ddd;
 
   @media screen and (max-width: 501px) {
     --padding: 14px;
@@ -50,7 +51,7 @@ body {
   display: grid;
   grid-template-rows: 1fr;
   overflow: visible;
-  border: 1px solid #ddd;
+  border: var(--border);
   transition: box-shadow 0.25s;
 
   &:hover {
@@ -61,7 +62,7 @@ body {
 .table {
   display: grid;
   max-width: 900px;
-  border-top: 1px solid #ddd;
+  border-top: var(--border);
 
   > div {
     min-height: 60px;
@@ -69,7 +70,7 @@ body {
     grid-template-columns: 100px 1fr;
     padding: 14px 10px;
     align-items: center;
-    border-bottom: 1px solid #ddd;
+    border-bottom: var(--border);
 
     span,
     a {
