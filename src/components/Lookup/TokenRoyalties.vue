@@ -49,7 +49,7 @@
         }
         return {
           address: e.recipient,
-          percentage: e.amount.mul(ethers.BigNumber.from(100)).div(this.amount),
+          percentage: (e.amount.mul(ethers.BigNumber.from(10000)).div(this.amount)).toNumber() / 100,
           eth: ethers.utils.formatEther(e.amount)
         }
       })

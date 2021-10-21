@@ -19,5 +19,6 @@
   #homepage {
     display: grid;
     align-items: center;
+    overflow: visible;
   }
 </style>

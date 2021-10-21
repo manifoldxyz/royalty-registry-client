@@ -212,8 +212,7 @@ input::-moz-focus-inner {
   -webkit-overflow-scrolling: touch;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-x: visible;
   margin: 0;
   padding: 0;
   outline: none;

@@ -1,7 +1,7 @@
 <template>
   <div class="token-details">
     <h2>Token Details</h2>
-    <div class="token-details-content">
+    <div class="table token-details-content">
       <div>
         <span>Address</span>
         <span>{{ values.address }}</span>
@@ -46,34 +46,6 @@
   }
 
   .token-details-content {
-    display: grid;
     grid-template-rows: 1fr 1fr 1fr;
-    max-width: 900px;
-    border-top: 1px solid #ddd;
-
-    > div {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      padding: 14px 10px;
-      align-items: center;
-      border-bottom: 1px solid #ddd;
-
-      span,
-      a {
-        &:first-child {
-          font-size: 10px;
-          text-transform: uppercase;
-        }
-
-        &:last-child {
-          font-size: 15px;
-          text-transform: none;
-        }
-      }
-
-      a {
-        text-decoration: underline;
-      }
-    }
   }
 </style>

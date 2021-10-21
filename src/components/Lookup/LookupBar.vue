@@ -1,10 +1,10 @@
 <template>
-  <div class="lookup-bar">
+  <div class="bar lookup-bar">
     <lookup-toggle :lookup-by-id="lookupById" @toggle="lookupById = !lookupById" />
     <lookup-by-id v-if="lookupById" @values="setValues($event)" />
     <lookup-by-url v-else @values="setValues($event)" />
     <selectable-number-field
-      :class="'lookup-eth-value'"
+      class="right-align"
       label="Eth Value"
       placeholder="0000"
       :model="amount"
@@ -18,8 +18,7 @@
 <script lang="ts">
   import { ethers } from "ethers"
   import { Component, Vue, Watch } from "vue-property-decorator"
-  import { isAddress } from "@/lib/addressValidation"
-  import SelectableNumberField from "./SelectableNumberField.vue"
+  import SelectableNumberField from "@/components/common/SelectableNumberField.vue"
   import LookupToggle from "./LookupToggle.vue"
   import LookupById from "./LookupById.vue"
   import LookupByUrl from "./LookupByURL.vue"
@@ -81,7 +80,7 @@
         this.address &&
         this.id &&
         this.amount &&
-        isAddress(this.address) &&
+        ethers.utils.isAddress(this.address) &&
         this.id.length &&
         parseInt(this.amount) > 0
       ) {
@@ -103,21 +102,9 @@
 </script>
 <style lang="scss" scoped>
   .lookup-bar {
-    width: 100%;
-    max-width: 900px;
-    min-height: 60px;
-    border: 1px solid #ddd;
     background: #ddd;
-    display: grid;
     grid-template-columns: 100px auto 114px 60px;
-    grid-template-rows: 1fr;
     grid-gap: 1px;
-    overflow: visible;
-    transition: box-shadow 0.25s;
-
-    &:hover {
-      box-shadow: 0 4px 10px -2px rgba(0, 0, 0, 0.1);
-    }
 
     > div {
       overflow: visible;
@@ -155,17 +142,4 @@
   }
 </style>
 <style lang="scss">
-  .lookup-eth-value {
-    position: relative;
-
-    label {
-      left: auto !important;
-      right: 12px;
-      text-align: right !important;
-    }
-
-    input {
-      text-align: right;
-    }
-  }
 </style>

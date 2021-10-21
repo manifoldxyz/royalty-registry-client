@@ -1,9 +1,18 @@
 <template>
-  <div class="bar-field">
+  <div class="selectable-field">
     <label>
       {{ label }}
     </label>
-    <input type="text" :placeholder="placeholder" :value="model_" @keyup="model_ = $event.target.value" @paste="model_ = $event.target.value" @focus="selectAll" />
+    <input
+      type="text"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :value="model_"
+      :style="{'font-size': `${fontsize}px`}"
+      @keyup="model_ = $event.target.value"
+      @paste="model_ = $event.target.value"
+      @focus="selectAll"
+    />
   </div>
 </template>
 <script lang="ts">
@@ -13,7 +22,9 @@
   export default class SelectableField extends Vue {
     @Prop({ type: String, required: true }) label: string
     @Prop({ type: String, required: true }) model: string
-    @Prop({ type: String, required: true }) placeholder: string
+    @Prop({ type: String, required: false, default: '' }) placeholder: string
+    @Prop({ type: Number, required: false, default: 24 }) fontsize: number
+    @Prop({ type: Boolean, required: false, default: false }) disabled: boolean
     model_: string | undefined = ""
 
     created() {
@@ -22,7 +33,7 @@
 
     @Watch('model_')
     handler(value, oldValue) {
-      this.$emit('change', this.model_)
+      this.$emit('change', value)
     }
 
     selectAll(e) {
@@ -31,15 +42,16 @@
   }
 </script>
 <style lang="scss" scoped>
-  .bar-field {
+  .selectable-field {
     display: block;
     overflow: visible;
     position: relative;
+    background: white;
 
     label {
       position: absolute;
       top: -16px;
-      left: 12px;
+      left: 10px;
       text-transform: uppercase;
       text-align: left;
       font-size: 10px;
@@ -48,8 +60,7 @@
     input {
       width: 100%;
       height: 100%;
-      font-size: 24px;
-      padding: 0 12px;
+      padding: 0 10px;
       -moz-appearance: textfield;
 
       &::placeholder {
@@ -67,6 +78,20 @@
       input {
         outline: 1px solid rgba(255, 0, 0, 0.25);
         color: rgba(255, 0, 0, 0.75);
+      }
+    }
+
+    &.right-align {
+      position: relative;
+
+      label {
+        left: auto !important;
+        right: 10px;
+        text-align: right !important;
+      }
+
+      input {
+        text-align: right;
       }
     }
   }

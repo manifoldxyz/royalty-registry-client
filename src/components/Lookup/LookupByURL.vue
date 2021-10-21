@@ -14,7 +14,7 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
-  import SelectableField from "./SelectableField.vue"
+  import SelectableField from "@/components/common/SelectableField.vue"
 
   @Component({
     components: {

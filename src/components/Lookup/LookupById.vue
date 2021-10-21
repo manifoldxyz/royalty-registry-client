@@ -4,12 +4,14 @@
       :class="{error}"
       label="Search By Token Address"
       placeholder="0x0123456789abcdef"
+      :fontsize="18"
       :model="address"
       @change="address = $event"
     />
     <selectable-number-field
       label="Token ID"
       placeholder="0000"
+      :integer="true"
       :model="id"
       @change="id = $event"
     />
@@ -17,9 +19,9 @@
 </template>
 <script lang="ts">
   import { Component, Vue, Watch } from 'vue-property-decorator'
-  import { isAddress } from "@/lib/addressValidation"
-  import SelectableField from "./SelectableField.vue"
-  import SelectableNumberField from "./SelectableNumberField.vue"
+  import { ethers } from "ethers"
+  import SelectableField from "@/components/common/SelectableField.vue"
+  import SelectableNumberField from "@/components/common/SelectableNumberField.vue"
 
   @Component({
     components: {
@@ -37,7 +39,7 @@
       if (!value.length) {
         this.error = false
       }
-      else if (!isAddress(value)) {
+      else if (!ethers.utils.isAddress(value)) {
         this.error = true
       } else {
         this.error = false
