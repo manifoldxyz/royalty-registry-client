@@ -13,7 +13,7 @@ interface RoyaltyInfo {
   bps: number
 }
 
-class EIP2981RoyaltyOverrideFactory {
+export class EIP2981RoyaltyOverrideFactory {
   private factoryContract_: ethers.Contract | null = null
   private ethersProvider_: ethers.providers.Web3Provider
   
@@ -34,7 +34,7 @@ class EIP2981RoyaltyOverrideFactory {
     if (!contractAddress) throw new Error("Network not supported")
     if (!this.factoryContract_) {
       this.factoryContract_ = new ethers.Contract(contractAddress!, EIP2981RoyaltyOverrideFactoryABI as ethers.ContractInterface, this.ethersProvider_)
-      this.factoryContract_.connect(this.ethersProvider_.getSigner())
+      this.factoryContract_ = this.factoryContract_.connect(this.ethersProvider_.getSigner())
     }
     return this.factoryContract_
   }
@@ -42,12 +42,12 @@ class EIP2981RoyaltyOverrideFactory {
   /**
    * Create an override contract
    */
-  private async createOverrideContract() {
+  public async createOverrideContract() {
     return (await this._getContractInstance()).createOverride()
   }
 }
 
-class EIP2981RoyaltyOverride {
+export class EIP2981RoyaltyOverride {
   private overrideContract_: ethers.Contract | null = null
   private overrideAddress_: string
   private ethersProvider_: ethers.providers.Web3Provider

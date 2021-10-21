@@ -63,6 +63,7 @@
 <script lang="ts">
   import { mixins } from "vue-class-component"
   import { Component, Watch } from "vue-property-decorator"
+  import { EIP2981RoyaltyOverride } from "@/lib/EIP2981RoyaltyOverride"
   import StepMixin from "@/mixins/StepMixin"
   import SelectableField from "@/components/common/SelectableField.vue"
   import SelectableNumberField from "@/components/common/SelectableNumberField.vue"

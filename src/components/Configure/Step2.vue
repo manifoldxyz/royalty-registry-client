@@ -26,6 +26,7 @@
         </div>
         <button
           class="full"
+          :class="{disabled: !overrideAllowed}"
           :tabindex="active ? 1 : -1"
           @click="editOverride"
         >
@@ -35,6 +36,7 @@
       <h2>Create New Override</h2>
       <button
         class="full"
+        :class="{disabled: !overrideAllowed}"
         @click="createNewOverride"
         :tabindex="active ? 2 : -1"
       >
@@ -62,7 +64,6 @@
       const tokenAddress = this.$parent.tokenAddress
 
       this.overrideAllowed = await this.registry.overrideAllowed(tokenAddress)
-      console.log(this.overrideAllowed)
       this.tokenSpec = await this.specChecker.getRoyaltySpec(tokenAddress)
       const lookupAddress = await this.registry.getRoyaltyLookupAddress(tokenAddress)
 
@@ -74,11 +75,36 @@
     }
 
     editOverride() {
-      this.$emit('edit', this.overrideAddress)
+      if (this.overrideAllowed) {
+        this.$emit('edit', this.overrideAddress)
+      }
     }
 
     createNewOverride() {
-      this.$emit('create')
+      if (this.overrideAllowed) {
+        this.$emit('create')
+      }
     }
   }
 </script>
+<style lang="scss" scoped>
+  .step .step2-content button.disabled {
+    position: relative;
+
+    &:hover {
+      &::after {
+        display: block;
+        position: absolute;
+        line-height: 60px;
+        top: 0;
+        left: 0;
+        content: 'Access Denied';
+        width: 100%;
+        height: 100%;
+        background: red;
+        color: white;
+        cursor: none;
+      }
+    }
+  }
+</style>

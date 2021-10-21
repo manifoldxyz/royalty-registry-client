@@ -92,6 +92,12 @@ body {
   }
 }
 
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: initial !important;
+}
+
 .step {
   background: var(--bg);
   position: relative;

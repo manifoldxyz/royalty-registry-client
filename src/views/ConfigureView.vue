@@ -21,6 +21,8 @@
   import { RoyaltyRegistry } from "@/lib/RoyaltyRegistry"
   import { RoyaltyInfo, RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
   import { RoyaltySpecChecker } from "@/lib/RoyaltySpecChecker"
+  import { getCookie } from "@/lib/cookies"
+  import { PENDING_CONFIGURATION_TOKEN_ADDRESS, PENDING_NEW_CONTRACT_TX, PENDING_SET_OVERRIDE_TX } from "@/constants"
   import Step1 from "@/components/Configure/Step1.vue"
   import Step2 from "@/components/Configure/Step2.vue"
   import Step3 from "@/components/Configure/Step3.vue"
@@ -50,13 +52,20 @@
 
     mounted() {
       setTimeout(() => {
-        this.step++
+        if (getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)) {
+          this.tokenAddress = getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)
+          this.step = 3
+        } else {
+          this.step++
+        }
       }, 1000)
     }
 
     @Watch("tokenAddress")
     tokenAddressHandler(value) {
-      this.step = 2
+      if(this.step != 3) {
+        this.step = 2
+      }
     }
 
     configureOverride(overrideAddress) {

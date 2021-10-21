@@ -43,7 +43,7 @@ export class RoyaltyRegistry {
     } else {
       if (!this.registryContract_) {
         this.registryContract_ = new ethers.Contract(contractAddress!, RoyaltyRegistryABI as ethers.ContractInterface, this.ethersProvider_)
-        this.registryContract_.connect(this.ethersProvider_.getSigner())
+        this.registryContract_ = this.registryContract_.connect(this.ethersProvider_.getSigner())
         await this._updateWallet()
       }
       return this.registryContract_
