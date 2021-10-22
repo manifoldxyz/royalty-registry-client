@@ -33,7 +33,7 @@
     }
   })
   export default class LookupBar extends Vue {
-    lookupById: boolean = false
+    lookupById: boolean = true
     address: string = ''
     id: string = ''
     amount: string = "1"
