@@ -7,6 +7,7 @@ const app = new App();
 new ManifoldAwsFrontendStackLib(app, 'RoyaltyRegistryStack', {
   websiteName: 'RoyaltyRegistry',
   domainName: '*.royaltyregistry.xyz',
+  alternativeDomains: ['www.royaltyregistry.xyz', 'royaltyregistry.xyz'],
   env: {
     account: '743799374440',
     region: 'us-east-1'
