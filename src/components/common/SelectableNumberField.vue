@@ -9,30 +9,15 @@
 
     @Watch('model_')
     handler(value, oldValue) {
-      // REDO
-
       if (value.length) {
-        if (value[value.length - 1] == ".") {
-          let test
-          if (this.integer) {
-            this.model_ = oldValue
-            return
-          } else {
-            test = parseFloat(value.slice(0, value.length - 1))
-          }
-          if (!isNaN(test)) {
+        if (!this.integer) {
+          if (value.match(/^[1-9][0-9]*.?[0-9]*$/)) {
             this.model_ = value.toString()
           } else {
             this.model_ = oldValue
           }
         } else {
-          if (this.integer) {
-            value = parseInt(value)
-          } else {
-            value = parseFloat(value)
-          }
-
-          if (!isNaN(value)) {
+          if (value.match(/^[1-9][0-9]*$/)) {
             this.model_ = value.toString()
           } else {
             this.model_ = oldValue

@@ -82,7 +82,7 @@
         this.amount &&
         ethers.utils.isAddress(this.address) &&
         this.id.length &&
-        parseInt(this.amount) > 0
+        parseFloat(this.amount) > 0
       ) {
         this.disabled = false
       }

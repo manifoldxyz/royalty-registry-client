@@ -235,7 +235,7 @@
 
     @Watch("fetchTokenIdField")
     fetchTokenIdHandler(value) {
-      if (!value.match(/^[1-9][0-9]+$/)) {
+      if (!value.match(/^[1-9][0-9]*$/)) {
         this.fetchTokenIdFieldError = true
       } else {
         this.fetchTokenIdFieldError = false
