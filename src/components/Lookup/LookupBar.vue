@@ -141,5 +141,3 @@
     }
   }
 </style>
-<style lang="scss">
-</style>

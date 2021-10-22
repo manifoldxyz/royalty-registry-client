@@ -19,7 +19,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-unused-vars': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/max-attributes-per-line': 'off',
-    'no-empty-source': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'vue/singleline-html-element-content-newline': 'off',
     'vue/html-self-closing': 'off'
   },
