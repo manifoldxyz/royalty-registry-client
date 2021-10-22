@@ -73,6 +73,20 @@
     </details>
     <details>
       <summary>
+        <h3>Source Code</h3>
+      </summary>
+      <div>
+        <p>
+          All the code is opens sourced and free to for anyone to explore and contribute.  The github repositories are:
+        </p>
+        <ul>
+          <li>Solidity Contracts: <a href="https://github.com/manifoldxyz/royalty-registry-solidity">https://github.com/manifoldxyz/royalty-registry-solidity</a></li>
+          <li>Website: <a href="https://github.com/manifoldxyz/royalty-registry-client">https://github.com/manifoldxyz/royalty-registry-client</a></li>
+        </ul>
+      </div>
+    </details>
+    <details>
+      <summary>
         <h3>For Creators</h3>
       </summary>
       <div>
@@ -80,7 +94,7 @@
           If your token contract already supports EIP2981 or is a Manifold, Rarible, SuperRare or Zora contract, you’re all good to go!
         </p>
         <p>
-          If not, you’ll need to deploy your own royalty override contract and set the override on the Royalty Registry as described above. Creators whose contract token was provided by another platform may want to contact the platform or contract owner for support with this operation.
+          If not, simply click 'Configure' at the top of this page to deploy your own on-chain royalty configuration for your old token contracts.  Creators whose token contract was provided by another platform may want to contact the platform or contract owner for support with this operation.
         </p>
       </div>
     </details>
@@ -105,16 +119,6 @@
           <li>Ropsten: {{ engine.get(3) }}.</li>
           <li>Mainnet: {{ engine.get(1) }}.</li>
         </ul>
-      </div>
-    </details>
-    <details>
-      <summary>
-        <h3>Coming Soon</h3>
-      </summary>
-      <div>
-        <p>
-          We believe all creators should have the tools and information regarding their contract royalties regardless of technical ability. We plan to launch a friendly user interface for understanding more about your on-chain royalties and performing operations like looking up royalty rates and setting override implementations.
-        </p>
       </div>
     </details>
   </div>

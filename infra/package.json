@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@aws-cdk/core": "1.121.0",
-    "@manifoldxyz/manifold-aws-frontend-stack-lib": "^0.0.6",
+    "@manifoldxyz/manifold-aws-frontend-stack-lib": "^0.0.7",
     "source-map-support": "^0.5.16"
   }
 }

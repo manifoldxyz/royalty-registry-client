@@ -24,6 +24,7 @@ const ERC165ABI = [
 ]
 
 const RoyaltySpecs: Map<string, string> = new Map([
+  ['0x478c8530', 'Manifold'],
   ['0xbb3bafd6', 'Manifold'],
   ['0xb7799584', 'RaribleV1'],
   ['0xcad96cca', 'RaribleV2'],

@@ -2,9 +2,10 @@
   <div class="step step2">
     <div :class="{show: loaded}" class="step2-content">
       <span class="step-label">Step 2 / 4 : Token Royalties</span>
-      <template v-if="!!tokenSpec">
+      <template v-if="!!royaltySpec">
         <h2>Token Contract Royalty Spec</h2>
-        <span class="text">This Token already supports <strong>{{ tokenSpec }}</strong>.</span>
+        <span class="text">This Token already supports <strong>{{ royaltySpec }}</strong> and you <strong>DO NOT</strong> need to set a new override.</span>
+        <span v-if="royaltySpec == 'Manifold'" class="text">You should configure your royalties using <a href="https://studio.manifoldxyz.dev">Manifold Studio</a>.</span>
       </template>
       <template v-if="!!overrideAddress">
         <h2>Active Overrides</h2>
@@ -61,7 +62,7 @@
   @Component
   export default class Step2 extends mixins(StepMixin) {
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
-    tokenSpec: string | null = null
+    royaltySpec: string | null = null
     overrideAddress: string = ""
     overrideContract: EIP2981RoyaltyOverride
     overrideAllowed: boolean = false
@@ -72,7 +73,7 @@
       const tokenAddress = this.$parent.tokenAddress
 
       this.overrideAllowed = await this.registry.overrideAllowed(tokenAddress)
-      this.tokenSpec = await this.specChecker.getRoyaltySpec(tokenAddress)
+      this.royaltySpec = await this.specChecker.getRoyaltySpec(tokenAddress)
       const lookupAddress = await this.registry.getRoyaltyLookupAddress(tokenAddress)
 
       if (lookupAddress.toLowerCase() != tokenAddress.toLowerCase()) {
