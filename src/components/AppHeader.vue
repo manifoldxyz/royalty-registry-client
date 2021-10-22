@@ -13,9 +13,9 @@
       <a href="/lookup#faq">FAQ</a>
     </nav>
     <div class="header-networks">
-      <span :class="{selected: $store.state.network == 1}">Mainnet</span>
-      <span :class="{selected: $store.state.network == 3}">Ropsten</span>
-      <span :class="{selected: $store.state.network == 4}">Rinkeby</span>
+      <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
+      <span @click="changeNetworks(3)" :class="{selected: $store.state.network == 3}">Ropsten</span>
+      <span @click="changeNetworks(4)" :class="{selected: $store.state.network == 4}">Rinkeby</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
         <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
         <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
@@ -24,6 +24,7 @@
   </header>
 </template>
 <script lang="ts">
+  import { ethers } from "ethers"
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
   import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
@@ -31,14 +32,33 @@
 
   @Component
   export default class AppHeader extends Vue {
+    provider: ethers.providers.Web3Provider
     registry: Map<number, string> = new Map()
     engine: Map<number, string> = new Map()
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
 
     created() {
+      //@ts-ignore
+      this.provider = this.$parent.ethersProvider
       this.registry = RoyaltyRegistryAddresses
       this.engine = RoyaltyEngineV1Addresses
       this.getEtherscanAddressUrl = getEtherscanAddressUrl
+    }
+
+    changeNetworks(networkId) {
+      if (networkId != this.$store.state.network) {
+        try {
+          //@ts-ignore
+          window.ethereum.request({
+            method: 'wallet_switchEthereumChain',
+            params: [{
+              chainId: `${'0x'+ networkId}`
+            }]
+          })
+        } catch (e) {
+          alert('An error occured while prompting a network change. Please change networks manually from your wallet.')
+        }
+      }
     }
   }
 </script>
@@ -69,6 +89,10 @@
       grid-gap: 18px;
       overflow: visible;
       position: relative;
+
+      > span {
+        cursor: pointer;
+      }
 
       a.disabled {
         opacity: 0.25;
