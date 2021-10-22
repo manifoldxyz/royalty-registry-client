@@ -4,8 +4,8 @@ import { EIP2981RoyaltyOverrideFactoryABI } from "@/abi/EIP2981RoyaltyOverrideFa
 
 const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
   [1, '0x1Df22edCca5DBD944474b44d9121cB833CDBb336'],
-  [3, '0x7ef865963D3A005670b8F8Df6aed23e456FA75e0'],
-  [4, '0x80ca1Dc17f79Bb819a14805aB2cA6ab6505f3071'],
+  [3, '0x3C7FcDbbe53C21647FCA40eCa2e499bCcE0D23cF'],
+  [4, '0x3C7FcDbbe53C21647FCA40eCa2e499bCcE0D23cF'],
 ])
 
 export interface RoyaltyInfo {
