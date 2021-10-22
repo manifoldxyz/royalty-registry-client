@@ -91,7 +91,7 @@
       </summary>
       <div>
         <p>
-          If your token contract already supports EIP2981 or is a Manifold, Rarible, SuperRare or Zora contract, you’re all good to go!  If you have a token created from Foundation, they are also supported and you can manage your royalties on their website.
+          If your token contract already supports EIP2981 or is a Manifold, Rarible, SuperRare or Zora based contract, you’re all good to go!  If you have a token created from Foundation, Rarible or SuperRare, they are supported and you can manage your royalties on their respective websites.
         </p>
         <p>
           If not, simply click 'Configure' at the top of this page to deploy your own on-chain royalty configuration for your old token contracts.  Creators whose token contract was provided by another platform may want to contact the platform or contract owner for support with this operation.
