@@ -13,6 +13,12 @@ export interface RoyaltyInfo {
   bps: number
 }
 
+interface RoyaltyInfoConfig {
+  tokenId: string,
+  recipient: string,
+  bps: number
+}
+
 export class EIP2981RoyaltyOverrideFactory {
   private factoryContract_: ethers.Contract | null = null
   private ethersProvider_: ethers.providers.Web3Provider
@@ -92,7 +98,7 @@ export class EIP2981RoyaltyOverride {
    */
   public async overrideSupported(): Promise<boolean> {
     const contract = await this._getContractInstance()
-    return await contract.supportsInterface('0x3bea9a6a')
+    return await contract.supportsInterface('0xc69dbd8f')
   }
 
   /**
@@ -119,7 +125,7 @@ export class EIP2981RoyaltyOverride {
   public async setDefaultRoyalty(recipient: string, bps: number) {
     const contract = await this._getContractInstance()
     if (!this.ethersProviderWallet_) throw new Error('No wallet connected')
-    return await contract.setDefaultRoyalty(recipient, bps, {from: this.ethersProviderWallet_})
+    return await contract.setDefaultRoyalty([recipient, bps], {from: this.ethersProviderWallet_})
   }
 
 
@@ -134,7 +140,38 @@ export class EIP2981RoyaltyOverride {
   public async setTokenRoyalty(tokenId: string, recipient: string, bps: number) {
     const contract = await this._getContractInstance()
     if (!this.ethersProviderWallet_) throw new Error('No wallet connected')
-    return await contract.setTokenRoyalty(tokenId, recipient, bps, {from: this.ethersProviderWallet_})
+    return await contract.setTokenRoyalties([[tokenId, recipient, bps]], {from: this.ethersProviderWallet_})
+  }
+
+  /**
+   * Batch set royalties for many tokens.  To delete a previous setting, pass in a config
+   * with a recipient address of 0x0000000000000000000000000000000000000000
+   * 
+   * @param royaltyConfigs - List of RoyaltyInfoConfig
+   */
+  public async setTokenRoyalties(configs: RoyaltyInfoConfig[]) {
+    const royaltyConfigs: any[] = []
+    for (const config of configs) {
+      royaltyConfigs.push([config.tokenId, config.recipient, config.bps])
+    }
+    const contract = await this._getContractInstance()
+    if (!this.ethersProviderWallet_) throw new Error('No wallet connected')
+    return await contract.setTokenRoyalties(royaltyConfigs, {from: this.ethersProviderWallet_})
+  }
+
+  /**
+   * Get a list of current royalty token configs
+   */
+  public async getTokenRoyalties(): Promise<RoyaltyInfoConfig[]> {
+    const contract = await this._getContractInstance()
+    const count = await contract.getTokenRoyaltiesCount()
+    const royaltyConfigs: RoyaltyInfoConfig[] = []
+    for (let i = 0; i < count; i++) {
+      const result = await contract.getTokenRoyaltyByIndex(i)
+      royaltyConfigs.push({tokenId: result[0].toString(), recipient: result[1], bps: result[2]})
+    }
+    return royaltyConfigs
+
   }
 
 }
