@@ -57,7 +57,7 @@
           <li>Zora (limited functionality)</li>
         </ul>
         <p>
-          You can use the deployed Royalty Engine at engine.royaltyregistry.eth (<a target="_blank" :href="getEtherscanAddressUrl(1, engine.get(1))">{{ engine.get(1) }}</a>) or you can fork the engine and include it in your marketplace.
+          You can use the deployed Royalty Engine at engine-v1.royaltyregistry.eth (<a target="_blank" :href="getEtherscanAddressUrl(1, engine.get(1))">{{ engine.get(1) }}</a>) or you can fork the engine and include it in your marketplace.
         </p>
       </div>
     </details>
