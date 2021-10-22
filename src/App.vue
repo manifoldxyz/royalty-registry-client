@@ -9,6 +9,7 @@
         <div class="unsupported-network">
           <h1>RoyaltyRegistry.eth</h1>
           <span>Only Mainnet, Ropsten, and Rinkeby chains are supported.</span>
+          <faq />
         </div>
       </template>
     </template>
@@ -16,6 +17,7 @@
       <div class="install-wallet">
         <h1>RoyaltyRegistry.eth</h1>
         <span>Please Install a Wallet</span>
+        <faq />
       </div>
     </template>
   </div>
@@ -25,10 +27,12 @@
   import { ethers } from "ethers"
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import AppHeader from "@/components/AppHeader.vue"
+  import Faq from "@/components/FAQ.vue"
 
   @Component({
     components: {
       AppHeader,
+      Faq
     }
   })
   export default class App extends Vue {

@@ -100,7 +100,7 @@
     </details>
     <details>
       <summary>
-        <h3>For Developers</h3>
+        <h3>For Developers and Marketplaces</h3>
       </summary>
       <div>
         <p>
