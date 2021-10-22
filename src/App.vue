@@ -7,17 +7,21 @@
       </template>
       <template v-else>
         <div class="unsupported-network">
-          <h1>RoyaltyRegistry.eth</h1>
-          <span>Only Mainnet, Ropsten, and Rinkeby chains are supported.</span>
-          <faq />
+          <div class="inner">
+            <h1>RoyaltyRegistry.eth</h1>
+            <span>Only Mainnet, Ropsten, and Rinkeby chains are supported.</span>
+            <faq />
+          </div>
         </div>
       </template>
     </template>
     <template v-else>
       <div class="install-wallet">
-        <h1>RoyaltyRegistry.eth</h1>
-        <span>Please Install a Wallet</span>
-        <faq />
+        <div class="inner">
+          <h1>RoyaltyRegistry.eth</h1>
+          <span>Please Install a Wallet</span>
+          <faq />
+        </div>
       </div>
     </template>
   </div>
@@ -91,11 +95,33 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      grid-gap: 30px;
 
-      > h1 {
-        font-size: 12px;
-        text-transform: uppercase;
+      .inner {
+        width: 100%;
+        height: auto;
+        max-height: 100%;
+        overflow-y: scroll;
+
+        > * {
+          display: block;
+          width: 100%;
+          max-width: 900px;
+          margin: 0 auto;
+        }
+
+        > h1 {
+          font-size: 11px;
+          text-transform: uppercase;
+          padding: 0 10px;
+          margin-bottom: 10px;
+        }
+
+        span {
+          font-size: 18px;
+          padding: 0 10px 30px;
+          margin-bottom: 45px;
+          border-bottom: var(--border);
+        }
       }
     }
   }

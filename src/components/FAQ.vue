@@ -167,12 +167,22 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+        -webkit-appearance: none;
+        position: relative;
+
+        &::-webkit-details-marker {
+          display: none;
+        }
 
         h3 {
           font-size: 20px;
         }
 
         &::after {
+          position: absolute;
+          right: 10px;
+          top: 50%;
+          transform: translateY(-50%);
           display: block;
           content: '';
           width: 10px;
@@ -225,8 +235,8 @@
 
       &[open] {
         summary {
-          svg {
-            transform: rotate(180deg);
+          &::after {
+            transform: rotate(180deg) translateY(50%) !important;
           }
         }
       }
