@@ -7,7 +7,7 @@
       <step-4 :active="step == 4" />
     </div>
     <button
-      v-show="step > 0"
+      v-show="step > 1"
       @click="startOver"
       class="start-over"
     >
