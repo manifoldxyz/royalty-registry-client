@@ -6,7 +6,7 @@ import { ManifoldAwsFrontendStackLib } from '@manifoldxyz/manifold-aws-frontend-
 const app = new App();
 new ManifoldAwsFrontendStackLib(app, 'RoyaltyRegistryStack', {
   websiteName: 'RoyaltyRegistry',
-  domainName: 'royaltyregistry.xyz',
+  domainName: 'www.royaltyregistry.xyz',
   env: {
     account: '743799374440',
     region: 'us-east-1'
