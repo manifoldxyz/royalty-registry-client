@@ -38,8 +38,8 @@
   })
   export default class ConfigureView extends Vue {
     step: number = 0
-    tokenAddress: string = "0x40534Dab0aAe71830A15968104169b5bEd85A802"
-    overrideAddress: string = "0xE3E49C16e0a31cDCCdbB8E31D737aB4b650Da286"
+    tokenAddress: string = ""
+    overrideAddress: string = ""
 
     created() {
       //@ts-ignore
@@ -56,8 +56,7 @@
           this.tokenAddress = getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)
           this.step = 3
         } else {
-          // this.step++
-          this.step = 4
+          this.step++
         }
       }, 1000)
     }
@@ -134,6 +133,11 @@
         height: auto;
         white-space: wrap;
         padding: 0 10px;
+
+        a {
+          font-size: inherit;
+          text-decoration: underline;
+        }
       }
 
       button.full {

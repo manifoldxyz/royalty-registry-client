@@ -26,11 +26,16 @@
         </div>
         <button
           class="full"
-          :class="{disabled: !overrideAllowed}"
+          :class="{disabled: !overrideAllowed || !overrideSupported}"
           :tabindex="active ? 1 : -1"
           @click="configureOverride"
         >
-          Configure Override
+          <template v-if="overrideSupported">
+            Configure Override
+          </template>
+          <template v-else>
+            Override Not Configurable
+          </template>
         </button>
       </template>
       <h2>Create New Override</h2>
@@ -51,13 +56,16 @@
   import { Component } from "vue-property-decorator"
   import StepMixin from "@/mixins/StepMixin"
   import { getEtherscanAddressUrl } from "@/lib/etherscan"
+  import { EIP2981RoyaltyOverride } from "@/lib/EIP2981RoyaltyOverride"
 
   @Component
   export default class Step2 extends mixins(StepMixin) {
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
     tokenSpec: string | null = null
     overrideAddress: string = ""
+    overrideContract: EIP2981RoyaltyOverride
     overrideAllowed: boolean = false
+    overrideSupported: boolean = false
 
     async activate() {
       //@ts-ignore
@@ -69,6 +77,9 @@
 
       if (lookupAddress.toLowerCase() != tokenAddress.toLowerCase()) {
         this.overrideAddress = lookupAddress
+        //@ts-ignore
+        this.overrideContract = new EIP2981RoyaltyOverride(window.ethereum, this.overrideAddress)
+        this.overrideSupported = await this.overrideContract.overrideSupported()
       }
 
       this.loaded = true

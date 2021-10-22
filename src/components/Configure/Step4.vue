@@ -51,15 +51,16 @@
       <h2>Per Token Royalties</h2>
       <span class="text">Fetch and Configure Overrides by Token ID.</span>
       <div class="bar token-id-fetch-bar">
-        <selectable-number-field
+        <selectable-field
           :tabindex="active ? 3 : -1"
           label="Fetch Token ID"
           placeholder="0"
+          :class="{error: fetchTokenIdFieldError}"
           :model="fetchTokenIdField"
           @change="fetchTokenIdField = $event"
         />
         <button
-          :disabled="!fetchTokenIdField || perTokenIds.find(e => e.id == fetchTokenIdField)"
+          :disabled="fetchTokenIdFieldError || !fetchTokenIdField || perTokenId.id == fetchTokenIdField"
           :tabindex="active ? 4 : -1"
           @click="fetchTokenId"
         >
@@ -68,36 +69,30 @@
       </div>
 
       <div class="token-id-overrides">
-        <div class="bar token-id-override-bar" v-for="(id_recipient_bps, idx) in perTokenIds" :key="idx">
-          <selectable-number-field
-            :tabindex="active ? 5 : -1"
-            disabled
-            label="Token ID"
-            :model="id_recipient_bps.id"
-          />
+        <div class="bar token-id-override-bar" v-if="perTokenId.id">
           <selectable-field
             :tabindex="active ? 6 : -1"
-            :class="{error: id_recipient_bps.error}"
+            :class="{error: perTokenId.error}"
             label="Recipient Address"
             placeholder="0x0123456789abcdef"
             fontsize="22"
-            :model="id_recipient_bps.recipient"
-            @change="setRecipient($event, perTokenIds[idx])"
+            :model="perTokenId.recipient"
+            @change="setRecipient($event, perTokenId[idx])"
           />
           <selectable-number-field
             :tabindex="active ? 7 : -1"
             label="Royalty Basis Points"
             class="right-align"
             placeholder="0"
-            :model="id_recipient_bps.bps"
-            @change="setBps($event, id_recipient_bps)"
+            :model="perTokenId.bps"
+            @change="setBps($event, perTokenId)"
           />
           <button
             :tabindex="active ? 8 : -1"
-            :disabled="id_recipient_bps.disabled || pendingTx"
+            :disabled="perTokenId.disabled || pendingTx"
             @click="setPerTokenIdBPS(idx)"
           >
-            <template v-if="transaction.identifier == id_recipient_bps.id">
+            <template v-if="transaction.identifier == perTokenId.id">
               <template v-if="transaction.state == 'confirmed' || transaction.state == 'error'">
                 {{ transaction.state }}
               </template>
@@ -148,8 +143,9 @@
       bps:  "",
       disabled: false
     }
+    fetchTokenIdFieldError: boolean = false
     fetchTokenIdField: string = ""
-    perTokenIds: SetBPSFields[] = []
+    perTokenId: Partial<SetBPSFields> = {}
     tokenAddress: string = ""
     overrideAddress: string = ""
     overrideContract: EIP2981RoyaltyOverride
@@ -194,6 +190,8 @@
       //@ts-ignore
       this.tokenAddress = this.$parent.tokenAddress
       //@ts-ignore
+      this.engine = this.$parent.engine
+      //@ts-ignore
       this.overrideAddress = this.$parent.overrideAddress
       //@ts-ignore
       this.overrideContract = new EIP2981RoyaltyOverride(window.ethereum, this.overrideAddress)
@@ -235,20 +233,32 @@
       this.waitTransaction(await this.overrideContract.setDefaultRoyalty(this.defaultRoyalty.recipient, parseInt(this.defaultRoyalty.bps)))
     }
 
-    fetchTokenId() {
-      this.perTokenIds.splice(this.perTokenIds.length, 1, {
-        id: this.fetchTokenIdField,
-        error: false,
-        recipient: "",
-        bps:  "",
-        disabled: true
-      })
+    @Watch("fetchTokenIdField")
+    fetchTokenIdHandler(value) {
+      if (!value.match(/^[1-9][0-9]+$/)) {
+        this.fetchTokenIdFieldError = true
+      } else {
+        this.fetchTokenIdFieldError = false
+      }
+    }
+
+    async fetchTokenId() {
+      const royaltyData = await this.engine.getRoyalty(this.tokenAddress, this.fetchTokenIdField, ethers.BigNumber.from("10000"))
+
+      if (royaltyData.length > 0) {
+        this.perTokenId = {
+          id: this.fetchTokenIdField.toString(),
+          error: false,
+          recipient: royaltyData[0].recipient,
+          bps: royaltyData[0].amount.toString(),
+          disabled: true
+        }
+      }
     }
 
     async setPerTokenIdBPS(idx) {
-      const tokenIdBPS = this.perTokenIds[idx]
-      this.transaction.identifier = tokenIdBPS.id!
-      this.waitTransaction(await this.overrideContract.setTokenRoyalty(tokenIdBPS.id!, tokenIdBPS.recipient, parseInt(tokenIdBPS.bps)))
+      this.transaction.identifier = this.perTokenId.id!
+      this.waitTransaction(await this.overrideContract.setTokenRoyalty(this.perTokenId.id!, this.perTokenId.recipient!, parseInt(this.perTokenId.bps!)))
     }
   }
 </script>
@@ -315,7 +325,7 @@
         margin-top: 40px;
 
         .token-id-override-bar {
-          grid-template-columns: 100px 1fr 136px 74px;
+          grid-template-columns: 1fr 136px 74px;
           grid-gap: 1px;
           background: #ddd;
           overflow: hidden;
