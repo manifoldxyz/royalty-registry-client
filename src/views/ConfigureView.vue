@@ -1,9 +1,9 @@
 <template>
   <div id="configure-view">
     <div id="configure-view-inner" :style="{'transform': `translateY(-${step - 1}00vh)`}">
-      <step-1 :active="step == 1" @next="tokenAddress = $event" />
+      <step-1 :active="step == 1" @next="setTokenAddress" />
       <step-2 :active="step == 2" @create="step = 3" @configure="configureOverride" />
-      <step-3 :active="step == 3" @next="configureOverride" />
+      <step-3 :active="step == 3" @configure="configureOverride" />
       <step-4 :active="step == 4" />
     </div>
     <button
@@ -38,8 +38,8 @@
   })
   export default class ConfigureView extends Vue {
     step: number = 0
-    tokenAddress: string = ""
-    overrideAddress: string = ""
+    tokenAddress: string = "0x40534Dab0aAe71830A15968104169b5bEd85A802"
+    overrideAddress: string = "0xE3E49C16e0a31cDCCdbB8E31D737aB4b650Da286"
 
     created() {
       //@ts-ignore
@@ -56,16 +56,15 @@
           this.tokenAddress = getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)
           this.step = 3
         } else {
-          this.step++
+          // this.step++
+          this.step = 4
         }
       }, 1000)
     }
 
-    @Watch("tokenAddress")
-    tokenAddressHandler(value) {
-      if(this.step != 3) {
-        this.step = 2
-      }
+    setTokenAddress(tokenAddress) {
+      this.tokenAddress = tokenAddress
+      this.step = 2
     }
 
     configureOverride(overrideAddress) {
@@ -86,7 +85,6 @@
     height: 100%;
     position: relative;
     overflow: hidden;
-    background: red;
 
     button.start-over {
       position: absolute;
@@ -98,6 +96,8 @@
       align-items: center;
       grid-gap: 15px;
       padding: 15px;
+      background: #f8f8f822;
+      backdrop-filter: blur(5px);
 
       span {
         font-size: 10px;

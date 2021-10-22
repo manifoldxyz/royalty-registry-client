@@ -25,7 +25,7 @@
         <span class="text">Set.</span>
         <div class="step3-action" :class="{show: overrideSet}">
           <h2>Configure New Override</h2>
-          <button :tabindex="active ? 0 : -1" class="full">Configure Override</button>
+          <button :tabindex="active ? 0 : -1" class="full" @click="configureOverride">Configure Override</button>
         </div>
       </template>
       <template v-if="error || cancelled">
@@ -151,6 +151,10 @@
           this.error = true
         }
       }
+    }
+
+    configureOverride() {
+      this.$emit('configure', this.newContractAddress)
     }
   }
 </script>

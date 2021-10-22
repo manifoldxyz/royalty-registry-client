@@ -28,7 +28,7 @@
           class="full"
           :class="{disabled: !overrideAllowed}"
           :tabindex="active ? 1 : -1"
-          @click="editOverride"
+          @click="configureOverride"
         >
           Configure Override
         </button>
@@ -74,9 +74,9 @@
       this.loaded = true
     }
 
-    editOverride() {
+    configureOverride() {
       if (this.overrideAllowed) {
-        this.$emit('edit', this.overrideAddress)
+        this.$emit('configure', this.overrideAddress)
       }
     }
 

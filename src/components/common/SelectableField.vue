@@ -33,6 +33,11 @@
       this.model_ = this.model
     }
 
+    @Watch("model")
+    propModelHandler(value, oldValue) {
+      this.model_ = this.model
+    }
+
     @Watch('model_')
     handler(value, oldValue) {
       this.$emit('change', value)
@@ -73,6 +78,11 @@
       &::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
+      }
+
+      &:disabled {
+        pointer-events: none;
+        user-select: none;
       }
     }
 

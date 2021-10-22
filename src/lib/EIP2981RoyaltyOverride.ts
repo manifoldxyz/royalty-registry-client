@@ -8,7 +8,7 @@ const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
   [4, '0x80ca1Dc17f79Bb819a14805aB2cA6ab6505f3071'],
 ])
 
-interface RoyaltyInfo {
+export interface RoyaltyInfo {
   recipient: string,
   bps: number
 }
@@ -102,7 +102,7 @@ export class EIP2981RoyaltyOverride {
    */
   public async getDefaultRoyalty(): Promise<RoyaltyInfo | null> {
     const contract = await this._getContractInstance()
-    const result = contract.defaultRoyalty()
+    const result = await contract.defaultRoyalty()
     if (result[0] == '0x0000000000000000000000000000000000000000') {
       return null
     }
