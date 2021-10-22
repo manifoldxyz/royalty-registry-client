@@ -51,8 +51,8 @@
         </p>
         <ul>
           <li>EIP2981</li>
+          <li>Manifold and Foundation</li>
           <li>Rarible</li>
-          <li>Manifold</li>
           <li>SuperRare</li>
           <li>Zora (limited functionality)</li>
         </ul>
