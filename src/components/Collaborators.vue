@@ -2,7 +2,9 @@
   <div class="built-in-collaboration-with" :class="{show}">
     <span>Built in Collaboration with</span>
     <div class="built-in-collaboration-with-logos" ref="logosContainer">
-      <img v-for="i in logoOrder" :src="logos[i]" :key="i" />
+      <a v-for="i in logoOrder" :key="i" :href="logos[i].url" target="_blank">
+        <img :src="logos[i].img" />
+      </a>
     </div>
   </div>
 </template>
@@ -17,13 +19,13 @@
 
   @Component
   export default class Collaborators extends Vue {
-    logos: string[] = [
-      LogoManifold,
-      LogoOpenSea,
-      LogoRarible,
-      LogoFoundation,
-      LogoSuperRare,
-      LogoNifty
+    logos: object[] = [
+      { img: LogoManifold, url: "https://manifold.xyz" },
+      { img: LogoOpenSea, url: "https://opensea.io" },
+      { img: LogoRarible, url: "https://rarible.com" },
+      { img: LogoFoundation, url: "https://foundation.app" },
+      { img: LogoSuperRare, url: "https://superrare.com" },
+      { img: LogoNifty, url: "https://niftygateway.com" },
     ]
     logoOrder: number[] = []
     loadedLogo: number = 0
@@ -44,7 +46,7 @@
       //@ts-ignore
       const array = [...this.$refs.logosContainer.children]
       array.forEach(el => {
-        el.addEventListener('load', () => {
+        el.children[0].addEventListener('load', () => {
           self.loadedLogo++
 
           if (self.loadedLogo == self.logos.length) {
@@ -80,11 +82,16 @@
       justify-content: center;
       align-items: center;
 
-      img {
+      a {
         width: auto;
         height: 32px;
         opacity: 0;
         transition: opacity 0.3s;
+
+        img {
+          width: auto;
+          height: 32px;
+        }
 
         &:nth-child(1) {
           transition-delay: 0.1s;
@@ -114,7 +121,7 @@
 
     &.show {
       .built-in-collaboration-with-logos {
-        img {
+        a {
           opacity: 1;
         }
       }
