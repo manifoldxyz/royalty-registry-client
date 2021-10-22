@@ -32,6 +32,8 @@ jobs:
       - name: Build infra
         working-directory: infra/
         run: yarn build
+        env:
+          AWS_ACCOUNT: ${{ secrets.AWS_ACCOUNT }}
 
       - name: Install cdk globally
         run: yarn global add aws-cdk
