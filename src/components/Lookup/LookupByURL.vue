@@ -29,6 +29,7 @@
     re_opensea_api: RegExp = new RegExp('([^]+)?api.opensea.io/asset/(0x[0-9a-fA-F]+)/([0-9]+)')
     re_rarible: RegExp = new RegExp('([^]+)?rarible.com/token/(0x[0-9a-fA-F]+):([0-9]+)')
     re_etherscan: RegExp = new RegExp('([^]+)?etherscan.io/token/(0x[0-9a-fA-F]+)\\?a=([0-9]+)')
+    re_foundation: RegExp = new RegExp('([^]+)?foundation.app/(0x[0-9a-fA-F]+)/[a-zA-Z]+/([0-9]+)$')
 
     @Watch('url')
     parseAddress(url) {
@@ -36,7 +37,8 @@
         this.re_opensea,
         this.re_opensea_api,
         this.re_rarible,
-        this.re_etherscan
+        this.re_etherscan,
+        this.re_foundation
       ]
       const network = this.$store.state.network
       let showWrongNetworkWarning = false
