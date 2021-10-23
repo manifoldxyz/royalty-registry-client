@@ -6,6 +6,8 @@ const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
   [1, '0x3C2253Ab95dd4A6F1A2fd2211866aDaa422f0873'],
   [3, '0x279b1eeA65573F161c0645BF3e1f5Ec54410701D'],
   [4, '0x6F99E83C687e1D41671CE10560F1Af7b67003B43'],
+  [137, '0xed8F6F9F4Fb266742a1922f5f9991dF90a219e8C'],
+  [80001, '0xe58e71Dae159346c51F1B1015a5d86f3Ee1acD5e']
 ])
 
 export interface RoyaltyInfo {

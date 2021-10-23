@@ -16,6 +16,8 @@
       <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
       <span @click="changeNetworks(3)" :class="{selected: $store.state.network == 3}">Ropsten</span>
       <span @click="changeNetworks(4)" :class="{selected: $store.state.network == 4}">Rinkeby</span>
+      <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
+      <span @click="changeNetworks(80001)" :class="{selected: $store.state.network == 80001}">Mumbai</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
         <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
         <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
@@ -52,7 +54,7 @@
           window.ethereum.request({
             method: 'wallet_switchEthereumChain',
             params: [{
-              chainId: `${'0x'+ networkId}`
+              chainId: `${'0x'+ networkId.toString(16)}`
             }]
           })
         } catch (e) {
@@ -134,6 +136,14 @@
 
         &:nth-child(3) {
           color: #efc45c;
+        }
+
+        &:nth-child(4) {
+          color: #68099e;
+        }
+
+        &:nth-child(5) {
+          color: #c943e4;
         }
       }
 
