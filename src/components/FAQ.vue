@@ -104,7 +104,7 @@
       </summary>
       <div>
         <p>
-          If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is here and the Royalty Engine locations are:
+          If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyEngineV1.json">here</a> and the Royalty Engine locations are:
         </p>
         <ul>
           <li>Mainnet: {{ registry.get(1) }}.</li>
@@ -114,7 +114,7 @@
           <li>Mumbai: {{ registry.get(80001) }}.</li>
         </ul>
         <p>
-          If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is here and the Royalty Registry locations are:
+          If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyRegistry.json">here</a> and the Royalty Registry locations are:
         </p>
         <ul>
           <li>Mainnet: {{ engine.get(1) }}.</li>
