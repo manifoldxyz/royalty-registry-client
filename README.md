@@ -1,6 +1,7 @@
 # royalty-registry-client
 
 ## Project setup
+NOTE: Use Node v14, Node v16 will not work due to an incompatbility with node-sass.
 ```
 yarn
 ```
