@@ -44,7 +44,10 @@
           It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
         </p>
         <p>
-          To set an override, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner can set an override for their contract.
+          To set an override, you can simply click the 'Configure' section at the top of the page which will guide you through deploying an override contract and configuring it.
+        </p>
+        <p>
+          If you want to use custom override logic beyond the reference implementation, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner or contract admins can set an override for their contract.
         </p>
         <p>
           <strong>The Royalty Engine</strong> is a contract that provides an easy way for any marketplace to look up royalties for any given token contract. If a token contract has set an override in the Royalty Registry, it will use that information. Otherwise, it will attempt to use royalty information from any of the supported specs:
