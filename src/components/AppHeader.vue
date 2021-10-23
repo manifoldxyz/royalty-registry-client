@@ -19,7 +19,7 @@
       <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
       <span @click="changeNetworks(80001)" :class="{selected: $store.state.network == 80001}">Mumbai</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
-        <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
+        <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, registry.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
         <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
       </div>
     </div>
