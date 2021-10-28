@@ -67,15 +67,19 @@
     overrideContract: EIP2981RoyaltyOverride
     overrideAllowed: boolean = false
     overrideSupported: boolean = false
+    overrideLookupError: boolean = false
 
     async activate() {
       //@ts-ignore
       const tokenAddress = this.$parent.tokenAddress
 
-      this.overrideAllowed = await this.registry.overrideAllowed(tokenAddress)
+      try {
+        this.overrideAllowed = await this.registry.overrideAllowed(tokenAddress)
+      } catch (error) {
+        this.overrideAllowed = false
+      }
       this.royaltySpec = await this.specChecker.getRoyaltySpec(tokenAddress)
       const lookupAddress = await this.registry.getRoyaltyLookupAddress(tokenAddress)
-
       if (lookupAddress.toLowerCase() != tokenAddress.toLowerCase()) {
         this.overrideAddress = lookupAddress
         //@ts-ignore

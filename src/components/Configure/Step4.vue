@@ -173,8 +173,10 @@
 
     setBps(value, obj) {
       obj.bps = value
-
       if (!obj.error && !!obj.recipient && !!obj.bps) {
+        if (parseInt(value) >= 10000) {
+          obj.disabled = true
+        }
         obj.disabled = false
       } else {
         obj.disabled = true

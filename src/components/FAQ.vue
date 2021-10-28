@@ -44,15 +44,18 @@
           It provides the ability for contracts which did not originally support any of the on-chain Royalty specifications to add this functionality to their smart contract. A reference EIP2981 override implementation can be found here: <a target="_blank" href="https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol">https://github.com/manifoldxyz/royalty-registry-solidity/blob/main/contracts/overrides/RoyaltyOverride.sol</a>.
         </p>
         <p>
-          To set an override, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner can set an override for their contract.
+          To set an override, you can simply click the 'Configure' section at the top of the page which will guide you through deploying an override contract and configuring it.
+        </p>
+        <p>
+          If you want to use custom override logic beyond the reference implementation, you will need to deploy an instance of your royalty override contract, set the appropriate royalty values, then call the Royalty Registry’s <strong><em>setRoyaltyLookupAddress</em></strong> function. Only the original contract owner or contract admins can set an override for their contract.
         </p>
         <p>
           <strong>The Royalty Engine</strong> is a contract that provides an easy way for any marketplace to look up royalties for any given token contract. If a token contract has set an override in the Royalty Registry, it will use that information. Otherwise, it will attempt to use royalty information from any of the supported specs:
         </p>
         <ul>
           <li>EIP2981</li>
+          <li>Manifold and Foundation</li>
           <li>Rarible</li>
-          <li>Manifold</li>
           <li>SuperRare</li>
           <li>Zora (limited functionality)</li>
         </ul>
@@ -91,10 +94,10 @@
       </summary>
       <div>
         <p>
-          If your token contract already supports EIP2981 or is a Manifold, Rarible, SuperRare or Zora contract, you’re all good to go!
+          If your token contract already supports EIP2981 or is a Manifold, Rarible or Zora based contract, you’re all good to go!  If you have a token created from Foundation, Rarible or SuperRare, they are supported and you can manage your royalties on their respective websites.
         </p>
         <p>
-          If not, simply click 'Configure' at the top of this page to deploy your own on-chain royalty configuration for your old token contracts.  Creators whose token contract was provided by another platform may want to contact the platform or contract owner for support with this operation.
+          If none of the above apply, not to worry! Simply click 'Configure' at the top of this page to deploy your own on-chain royalty configuration for your old token contracts.  Creators whose token contract was provided by another platform may want to contact the platform or contract owner for support with this operation.
         </p>
       </div>
     </details>
@@ -104,20 +107,24 @@
       </summary>
       <div>
         <p>
-          If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is here and the Royalty Engine locations are:
+          If you are a developer and wish to use the Royalty Engine for royalty lookups, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyEngineV1.json">here</a> and the Royalty Engine locations are:
         </p>
         <ul>
+          <li>Mainnet: {{ registry.get(1) }}.</li>
           <li>Rinkeby: {{ registry.get(4) }}.</li>
           <li>Ropsten: {{ registry.get(3) }}.</li>
-          <li>Mainnet: {{ registry.get(1) }}.</li>
+          <li>Polygon: {{ registry.get(137) }}.</li>
+          <li>Mumbai: {{ registry.get(80001) }}.</li>
         </ul>
         <p>
-          If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is here and the Royalty Registry locations are:
+          If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyRegistry.json">here</a> and the Royalty Registry locations are:
         </p>
         <ul>
+          <li>Mainnet: {{ engine.get(1) }}.</li>
           <li>Rinkeby: {{ engine.get(4) }}.</li>
           <li>Ropsten: {{ engine.get(3) }}.</li>
-          <li>Mainnet: {{ engine.get(1) }}.</li>
+          <li>Polygon: {{ engine.get(137) }}.</li>
+          <li>Mumbai: {{ engine.get(80001) }}.</li>
         </ul>
       </div>
     </details>

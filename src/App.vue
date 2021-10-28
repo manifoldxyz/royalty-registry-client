@@ -9,7 +9,7 @@
         <div class="unsupported-network">
           <div class="inner">
             <h1>RoyaltyRegistry.eth</h1>
-            <span>Only Mainnet, Ropsten, and Rinkeby chains are supported.</span>
+            <span>Only Mainnet, Ropsten, Rinkeby, Polygon Matic and Mumbai chains are supported.</span>
             <faq />
           </div>
         </div>
@@ -32,6 +32,7 @@
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import AppHeader from "@/components/AppHeader.vue"
   import Faq from "@/components/FAQ.vue"
+  import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
 
   @Component({
     components: {
@@ -60,7 +61,7 @@
     }
 
     setNetwork(chainId: number) {
-      if ([1,3,4].indexOf(chainId) >= 0) {
+      if (RoyaltyRegistryAddresses.has(chainId)) {
         this.supportedNetwork = true
         this.$store.commit('setNetwork', chainId)
       } else {
