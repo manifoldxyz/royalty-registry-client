@@ -10,6 +10,7 @@
           <div class="inner">
             <h1>RoyaltyRegistry.eth</h1>
             <span>Only Mainnet, Ropsten, Rinkeby, Polygon Matic and Mumbai chains are supported.</span>
+            <collaborators />
             <faq />
           </div>
         </div>
@@ -20,6 +21,7 @@
         <div class="inner">
           <h1>RoyaltyRegistry.eth</h1>
           <span>Please Install a Wallet</span>
+          <collaborators />
           <faq />
         </div>
       </div>
@@ -31,13 +33,15 @@
   import { ethers } from "ethers"
   import { Component, Vue, Prop } from 'vue-property-decorator'
   import AppHeader from "@/components/AppHeader.vue"
+  import Collaborators from "@/components/Collaborators.vue"
   import Faq from "@/components/FAQ.vue"
   import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
 
   @Component({
     components: {
       AppHeader,
-      Faq
+      Collaborators,
+      Faq,
     }
   })
   export default class App extends Vue {
@@ -102,8 +106,9 @@
         height: auto;
         max-height: 100%;
         overflow-y: scroll;
+        padding: 50px 0;
 
-        > * {
+        > *:not(.built-in-collaboration-with) {
           display: block;
           width: 100%;
           max-width: 900px;
@@ -117,11 +122,17 @@
           margin-bottom: 10px;
         }
 
-        span {
+        > span {
           font-size: 18px;
           padding: 0 10px 30px;
           margin-bottom: 45px;
           border-bottom: var(--border);
+        }
+
+        .built-in-collaboration-with {
+          padding: 50px 10px;
+          border-bottom: var(--border);
+          margin-bottom: 30px;
         }
       }
     }
