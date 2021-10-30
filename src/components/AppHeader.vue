@@ -150,7 +150,7 @@
       .header-networks-addresses {
         position: absolute;
         top: 150%;
-        left: 0;
+        right: 0;
         overflow: visible;
 
         > div {
