@@ -9,7 +9,7 @@
       <div class="bar default-royalty-bar">
         <selectable-field
           :tabindex="active ? 0 : -1"
-          :class="{error: defaultRoyalty.error}"
+          :class="{error: defaultRoyalty.recipientError}"
           :disabled="transaction.identifier == 'default'"
           label="Recipient Address"
           placeholder="0"
@@ -19,6 +19,7 @@
         />
         <selectable-number-field
           :tabindex="active ? 1 : -1"
+          :class="{error: defaultRoyalty.bpsError}"
           :disabled="transaction.identifier == 'default'"
           class="right-align"
           label="Royalty Basis Points"
@@ -74,15 +75,16 @@
         <div class="bar token-id-override-bar" v-if="perTokenId.id">
           <selectable-field
             :tabindex="active ? 6 : -1"
-            :class="{error: perTokenId.error}"
+            :class="{error: perTokenId.recipientError}"
             label="Recipient Address"
             placeholder="0x0123456789abcdef"
             fontsize="22"
             :model="perTokenId.recipient"
-            @change="setRecipient($event, perTokenId[idx])"
+            @change="setRecipient($event, perTokenId)"
           />
           <selectable-number-field
             :tabindex="active ? 7 : -1"
+            :class="{error: perTokenId.bpsError}"
             label="Royalty Basis Points"
             class="right-align"
             placeholder="0"
@@ -121,7 +123,8 @@
 
   type SetBPSFields = {
     id?: string;
-    error: boolean;
+    recipientError: boolean;
+    bpsError: boolean;
     recipient: string;
     bps:  string;
     disabled: boolean;
@@ -140,7 +143,8 @@
   })
   export default class Step4 extends mixins(StepMixin) {
     defaultRoyalty: SetBPSFields = {
-      error: false,
+      recipientError: false,
+      bpsError: false,
       recipient: "",
       bps:  "",
       disabled: false
@@ -159,14 +163,13 @@
     setRecipient(value, obj) {
       obj.recipient = value
       if (!obj.recipient) {
-        obj.error = false
-      }
-      else if (!ethers.utils.isAddress(obj.recipient)) {
-        obj.error = true
+        obj.recipientError = false
+      } else if (!ethers.utils.isAddress(obj.recipient)) {
+        obj.recipientError = true
       } else {
-        obj.error = false
+        obj.recipientError = false
       }
-      if (!obj.error && !!obj.recipient && !!obj.bps) {
+      if (!obj.recipientError && !obj.bpsError && !!obj.recipient && !!obj.bps) {
         obj.disabled = false
       } else {
         obj.disabled = true
@@ -175,16 +178,17 @@
 
     setBps(value, obj) {
       obj.bps = value
-      if (!obj.error && !!obj.recipient && !!obj.bps) {
-        if (parseInt(value) >= 10000) {
-          obj.disabled = true
-        }
+      if (value && parseInt(value) >= 10000) {
+        obj.bpsError = true
+      } else {
+        obj.bpsError = false
+      }
+      if (!obj.recipientError && !obj.bpsError && !!obj.recipient && !!obj.bps) {
         obj.disabled = false
       } else {
         obj.disabled = true
       }
     }
-
 
     get pendingTx() {
       return this.transaction.state.length > 0
@@ -252,8 +256,9 @@
       if (royaltyData.length > 0) {
         this.perTokenId = {
           id: this.fetchTokenIdField.toString(),
-          error: false,
-          recipient: royaltyData[0].recipient,
+          recipientError: false,
+          bpsError: false,
+          recipient: royaltyData[0].recipient == "0x0000000000000000000000000000000000000000" ? "" : royaltyData[0].recipient,
           bps: royaltyData[0].amount.toString(),
           disabled: true
         }
