@@ -5,6 +5,7 @@
 
       <h2>Token Contract Default Royalty</h2>
       <span class="text">Set a default policy for all tokens on this contract.</span>
+      <span class="text">Example: 10% = 1000 Basis Points.</span>
       <div class="bar default-royalty-bar">
         <selectable-field
           :tabindex="active ? 0 : -1"
@@ -50,6 +51,7 @@
 
       <h2>Per Token Royalties</h2>
       <span class="text">Fetch and Configure Overrides by Token ID.</span>
+      <span class="text">Example: 10% = 1000 Basis Points.</span>
       <div class="bar token-id-fetch-bar">
         <selectable-field
           :tabindex="active ? 3 : -1"
