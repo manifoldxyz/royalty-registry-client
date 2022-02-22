@@ -3,7 +3,7 @@ import { RoyaltyEngineV1ABI } from "../abi/RoyaltyEngineV1.json"
 
 export const RoyaltyEngineV1Addresses: Map<number, string> = new Map([
    [1, '0x0385603ab55642cb4dd5de3ae9e306809991804f'],
-   [3, '0x196B60FCd0868e1f3972eB5D4d00BE0ED80CDD8a'],
+   [3, '0xFf5A6F7f36764aAD301B7C9E85A5277614Df5E26'],
    [4, '0x8d17687ea9a6bb6efA24ec11DcFab01661b2ddcd'],
    [137, '0x28EdFcF0Be7E86b07493466e7631a213bDe8eEF2'],
    [80001, '0x0a01E11887f727D1b1Cd81251eeEE9BEE4262D07'],
