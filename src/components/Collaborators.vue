@@ -17,6 +17,7 @@
   import LogoSuperRare from "@/assets/images/collaborators-superrare.png"
   import LogoNifty from "@/assets/images/collaborators-nifty.png"
   import LogoZora from "@/assets/images/collaborators-zora.png"
+  import LogoMakersPlace from "@/assets/images/makersplace-mark-blk.png"
 
   @Component
   export default class Collaborators extends Vue {
@@ -28,6 +29,7 @@
       { img: LogoSuperRare, url: "https://superrare.com" },
       { img: LogoNifty, url: "https://niftygateway.com" },
       { img: LogoZora, url: "https://zora.co" },
+      { img: LogoMakersPlace, url: "https://makersplace.com" },
     ]
     logoOrder: number[] = []
     loadedLogo: number = 0
