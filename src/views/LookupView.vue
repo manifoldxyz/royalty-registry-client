@@ -45,6 +45,7 @@
   import TokenRoyalties from "@/components/Lookup/TokenRoyalties.vue"
   import Collaborators from "@/components/Collaborators.vue"
   import Faq from "@/components/FAQ.vue"
+  import { ethers } from "ethers"
 
   @Component({
     components: {
@@ -74,6 +75,17 @@
       this.engine = new RoyaltyEngineV1(window.ethereum)
       //@ts-ignore
       this.specChecker = new RoyaltySpecChecker(window.ethereum)
+
+      const tokenAddress = this.$route.params?.tokenAddress
+      const tokenId = this.$route.params?.tokenId
+
+      if (tokenAddress && tokenId) {
+        this.lookup({
+          address: tokenAddress,
+          id: tokenId,
+          amount: ethers.utils.parseEther('1')
+        })
+      }
     }
 
     async lookup(values) {

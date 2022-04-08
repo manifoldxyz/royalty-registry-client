@@ -25,6 +25,11 @@ export const routes = [
     component: ConfigureView,
   },
   {
+    path: '/:tokenAddress/:tokenId',
+    name: 'LookupWithToken',
+    component: LookupView,
+  },
+  {
     path: "*",
     redirect: { name: "HomePage" }
   }
