@@ -31,7 +31,7 @@
       { img: LogoNifty, url: "https://niftygateway.com" },
       { img: LogoZora, url: "https://zora.co" },
       { img: LogoMakersPlace, url: "https://makersplace.com" },
-      { img: LogoCoinbase, url: "" },
+      { img: LogoCoinbase, url: "https://nft.coinbase.com" },
     ]
     logoOrder: number[] = []
     loadedLogo: number = 0

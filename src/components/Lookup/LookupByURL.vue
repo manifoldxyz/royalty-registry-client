@@ -30,6 +30,7 @@
     re_rarible: RegExp = new RegExp('([^]+)?rarible.com/token/(0x[0-9a-fA-F]+):([0-9]+)')
     re_etherscan: RegExp = new RegExp('([^]+)?etherscan.io/token/(0x[0-9a-fA-F]+)\\?a=([0-9]+)')
     re_foundation: RegExp = new RegExp('([^]+)?foundation.app/(0x[0-9a-fA-F]+)/[a-zA-Z]+/([0-9]+)$')
+    re_coinbase: RegExp = new RegExp(('([^]+)?nft.coinbase.com/nft/ethereum/(0x[0-9a-fA-F]+)/[a-zA-Z]+/([0-9]+)$'))
 
     @Watch('url')
     parseAddress(url) {
