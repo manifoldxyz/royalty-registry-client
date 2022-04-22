@@ -16,6 +16,7 @@
       <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
       <span @click="changeNetworks(3)" :class="{selected: $store.state.network == 3}">Ropsten</span>
       <span @click="changeNetworks(4)" :class="{selected: $store.state.network == 4}">Rinkeby</span>
+      <span @click="changeNetworks(42)" :class="{selected: $store.state.network == 42}">Kovan</span>
       <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
       <span @click="changeNetworks(80001)" :class="{selected: $store.state.network == 80001}">Mumbai</span>
       <div class="header-networks-addresses" v-if="$store.state.network">
@@ -139,11 +140,15 @@
         }
 
         &:nth-child(4) {
-          color: #68099e;
+          color: #6e43e4;
         }
 
         &:nth-child(5) {
-          color: #c943e4;
+          color: #18099e;
+        }
+
+        &:nth-child(6) {
+          color: #b345f3;
         }
       }
 

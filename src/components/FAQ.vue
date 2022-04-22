@@ -113,6 +113,7 @@
           <li>Mainnet: {{ engine.get(1) }}.</li>
           <li>Rinkeby: {{ engine.get(4) }}.</li>
           <li>Ropsten: {{ engine.get(3) }}.</li>
+          <li>Kovan: {{ engine.get(42) }}.</li>
           <li>Polygon: {{ engine.get(137) }}.</li>
           <li>Mumbai: {{ engine.get(80001) }}.</li>
         </ul>
@@ -123,6 +124,7 @@
           <li>Mainnet: {{ registry.get(1) }}.</li>
           <li>Rinkeby: {{ registry.get(4) }}.</li>
           <li>Ropsten: {{ registry.get(3) }}.</li>
+          <li>Kovan: {{ registry.get(42) }}.</li>
           <li>Polygon: {{ registry.get(137) }}.</li>
           <li>Mumbai: {{ registry.get(80001) }}.</li>
         </ul>

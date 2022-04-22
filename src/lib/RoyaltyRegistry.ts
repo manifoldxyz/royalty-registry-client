@@ -5,6 +5,7 @@ export const RoyaltyRegistryAddresses: Map<number, string> = new Map([
    [1, '0xad2184fb5dbcfc05d8f056542fb25b04fa32a95d'],
    [3, '0x9cac159ec266E76ed7377b801f3b5d2cC7bcf40d'],
    [4, '0xc9198CbbB57708CF31e0caBCe963c98e60d333c3'],
+   [42, '0xBeA4a16cc7E5EFbf832a6082fd4E44693264b63F'],
    [137, '0xe7c9Cb6D966f76f3B5142167088927Bf34966a1f'],
    [80001, '0xb8b5eC5Fa0E20dED9dC86D029Ef24FdccE900a51']
 ])

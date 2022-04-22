@@ -51,7 +51,8 @@
         if (
           (network == 1 && (url.toLowerCase().indexOf('rinkeby') >= 0 || url.toLowerCase().indexOf('testnet') >= 0)) ||
           (network == 3 && url.toLowerCase().indexOf('ropsten') < 0 && url.toLowerCase().indexOf('testnet') < 0) ||
-          (network == 4 && url.toLowerCase().indexOf('rinkeby') < 0 && url.toLowerCase().indexOf('testnet') < 0)
+          (network == 4 && url.toLowerCase().indexOf('rinkeby') < 0 && url.toLowerCase().indexOf('testnet') < 0) ||
+          (network == 69 && url.toLowerCase().indexOf('kovan') < 0 && url.toLowerCase().indexOf('testnet') < 0)
         ){
           showWrongNetworkWarning = true
         }
