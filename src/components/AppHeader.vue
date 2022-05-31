@@ -141,11 +141,11 @@
         }
 
         &:nth-child(4) {
-          color: #6e43e4;
+          color: #2585df;
         }
 
         &:nth-child(5) {
-          color: #2585df;
+          color: #6e43e4;
         }
 
         &:nth-child(6) {
