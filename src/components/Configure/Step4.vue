@@ -88,6 +88,7 @@
             label="Royalty Basis Points"
             class="right-align"
             placeholder="0"
+            :integer="true"
             :model="perTokenId.bps"
             @change="setBps($event, perTokenId)"
           />

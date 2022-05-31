@@ -11,7 +11,7 @@
     handler(value, oldValue) {
       if (value.length) {
         if (!this.integer) {
-          if (value.match(/^[1-9][0-9]*.?[0-9]*$/)) {
+          if (value.match(/^[0-9]*.?[0-9]*$/)) {
             this.model_ = value.toString()
           } else {
             this.model_ = oldValue
