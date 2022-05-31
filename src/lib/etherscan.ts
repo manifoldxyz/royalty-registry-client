@@ -5,6 +5,8 @@ export const getEtherscanAddressUrl = function(network, address) {
     return `https://ropsten.etherscan.io/address/${address}`
   } else if (network == 4) {
     return `https://rinkeby.etherscan.io/address/${address}`
+  } else if (network == 5) {
+    return `https://goerli.etherscan.io/address/${address}`
   } else if (network == 42) {
     return `https://kovan.etherscan.io/address/${address}`
   } else if (network == 137) {
@@ -21,6 +23,8 @@ export const getEtherscanTokenUrl = function(network, address, id) {
     return `https://ropsten.etherscan.io/token/${address}?a=${id}`
   } else if (network == 4) {
     return `https://rinkeby.etherscan.io/token/${address}?a=${id}`
+  } else if (network == 5) {
+    return `https://goerli.etherscan.io/token/${address}?a=${id}`
   } else if (network == 42) {
       return `https://kovan.etherscan.io/token/${address}?a=${id}`
   } else if (network == 137) {
@@ -37,6 +41,8 @@ export const getEtherscanTxUrl = function(network, hash) {
     return `https://ropsten.etherscan.io/tx/${hash}`
   } else if (network == 4) {
     return `https://rinkeby.etherscan.io/tx/${hash}`
+  } else if (network == 5) {
+    return `https://goerli.etherscan.io/tx/${hash}`
   } else if (network == 42) {
     return `https://kovan.etherscan.io/tx/${hash}`
   } else if (network == 137) {
