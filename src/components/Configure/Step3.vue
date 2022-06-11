@@ -106,7 +106,7 @@
           newContractReceipt = await newContractTx.wait()
         }
 
-        if (newContractReceipt.status == 0) {
+        if (!newContractReceipt || newContractReceipt.status == 0) {
           setCookie(PENDING_NEW_CONTRACT_TX, '', 0)
           throw new Error()
         }
@@ -128,9 +128,18 @@
         }
 
         this.setOverrideTxHash = setOverrideTx.hash
-        const setOverrideReceipt = await setOverrideTx.wait()
 
-        if (setOverrideReceipt.status == 0) {
+        let setOverrideReceipt
+        if (pendingSetOverrideTx) {
+          while (!setOverrideReceipt) {
+            setOverrideReceipt = await this.provider.getTransactionReceipt(this.setOverrideTxHash)
+            await new Promise(res => setTimeout(res, 2000))
+          }
+        } else {
+          setOverrideReceipt = await setOverrideTx.wait()
+        }
+
+        if (!setOverrideReceipt || setOverrideReceipt.status == 0) {
           setCookie(PENDING_SET_OVERRIDE_TX, '', 0)
           throw new Error()
         }
@@ -141,13 +150,13 @@
         setCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS, '', 0)
 
       } catch (e: any) {
-        if (process.env.NODE_ENV == 'development') {
-          console.log(e)
-          console.trace()
-        }
         if (e.code === 4001) {
           this.cancelled = true
         } else {
+          console.log(e)
+          if (process.env.NODE_ENV == 'development') {
+            console.trace()
+          }
           this.error = true
         }
       }

@@ -97,7 +97,7 @@
         id: this.id,
         amount: ethers.utils.parseEther(this.amount)
       })
-      this.$router.push(`/${this.address}/${this.id}`).catch(()=>{});
+      this.$router.push(`/${this.address}/${this.id}`).catch(()=>{})
     }
   }
 </script>

@@ -9,10 +9,18 @@ module.exports = {
     'eslint:recommended',
     'plugin:vue/strongly-recommended'
   ],
+  parserOptions: {
+    parser: {
+      // Script parser for `<script lang="ts">`
+      ts: "@typescript-eslint/parser",
+      js: "@typescript-eslint/parser",
+    },
+  },
   rules: {
     // allow async-await
     'generator-star-spacing': 'off',
     'vue/require-default-prop': 0,
+    "vue/no-v-html": 0,
     'semi': [2, 'never'],
     'vue/html-indent': 'off',
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',

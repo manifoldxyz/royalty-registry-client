@@ -5,7 +5,7 @@
 
       <h2>Token Contract Default Royalty</h2>
       <span class="text">Set a default policy for all tokens on this contract.</span>
-      <span class="text">Example: 10% = 1000 Basis Points.</span>
+      <span class="text">Example: 10% = 1000 <a href="https://en.wikipedia.org/wiki/Basis_point">Basis Points (BPS)</a>.</span>
       <div class="bar default-royalty-bar">
         <selectable-field
           :tabindex="active ? 0 : -1"
