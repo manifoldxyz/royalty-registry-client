@@ -50,21 +50,27 @@ export class RoyaltyEngineV1 {
    * @returns Location of royalty lookup
    */
   public async getRoyalty(tokenAddress: string, tokenId: string, amount: ethers.BigNumber): Promise<RoyaltyInfo[]> {
+    console.log('here')
     const contract = await this._getContractInstance()
-    const result = await contract.getRoyaltyView(tokenAddress, tokenId, amount)
     const royalties: RoyaltyInfo[] = []
-    for (let i = 0; i < result[0].length; i++) {
-      let recipient = result[0][i]
-      // ENS lookup
-      try {
-        const _recipient = await this.ethersProvider_.lookupAddress(recipient)
-        if (_recipient) {
-          recipient = _recipient
+    try {
+      const result = await contract.getRoyaltyView(tokenAddress, tokenId, amount)
+      for (let i = 0; i < result[0].length; i++) {
+        let recipient = result[0][i]
+        // ENS lookup
+        try {
+          const _recipient = await this.ethersProvider_.lookupAddress(recipient)
+          if (_recipient) {
+            recipient = _recipient
+          }
+        } catch {
+          // Do nothing, no ENS name is ok
         }
-      } catch {
-        // Do nothing, no ENS name is ok
+        royalties.push({recipient:recipient, amount:result[1][i]})
       }
-      royalties.push({recipient:recipient, amount:result[1][i]})
+    } catch(e) {
+      // Royalty lookup failure
+      console.log(`Royalty Lookup Error`, e)
     }
     return royalties
   }

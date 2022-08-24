@@ -96,14 +96,6 @@
       this.showResultsLayout = true
       this.tokenDetails = values
       try {
-        const data = await this.engine.getRoyalty(values.address, values.id, values.amount)
-
-        if (data.length == 0) {
-          this.resultsErrorMsg = 'No on-chain royalties configured'
-        } else {
-          this.royaltyData = data
-        }
-
         const lookupAddress = await this.registry.getRoyaltyLookupAddress(values.address)
         if (lookupAddress.toLowerCase() != values.address.toLowerCase()) {
           this.royaltyOverrideAddress = lookupAddress
@@ -111,6 +103,15 @@
         } else {
           this.royaltySpec = await this.specChecker.getRoyaltySpec(values.address)
         }
+
+        const data = await this.engine.getRoyalty(values.address, values.id, values.amount)
+
+        if (!this.royaltySpec && data.length == 0) {
+          this.resultsErrorMsg = 'No on-chain royalties configured'
+        } else {
+          this.royaltyData = data
+        }
+
 
       } catch (e) {
         this.resultsErrorMsg = 'Address not recognized'

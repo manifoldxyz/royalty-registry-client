@@ -46,14 +46,12 @@ export class RoyaltySpecChecker {
    */
   public async getRoyaltySpec(tokenAddress: string): Promise<string|null> {
     const contract = await new ethers.Contract(tokenAddress, ERC165ABI as ethers.ContractInterface, this.ethersProvider_)
-    try {
-      for (const [interfaceId, spec] of RoyaltySpecs.entries()) {
-        if (await contract.supportsInterface(interfaceId)) {
-          return spec
-        }
+    for (const [interfaceId, spec] of RoyaltySpecs.entries()) {
+      try {
+        if (await contract.supportsInterface(interfaceId)) return spec
+      } catch(e) {
+        console.log(`Lookup error: ${spec}`, e)
       }
-    } catch {
-      return null
     }
     return null
   }
