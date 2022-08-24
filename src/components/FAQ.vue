@@ -1,6 +1,6 @@
 <template>
   <div id="faq" class="faq">
-    <h2>Frequently Asked Questons</h2>
+    <h2>Frequently Asked Questions</h2>
 
     <details>
       <summary>
