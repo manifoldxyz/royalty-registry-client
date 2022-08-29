@@ -19,6 +19,7 @@
   import LogoZora from "@/assets/images/collaborators-zora.png"
   import LogoMakersPlace from "@/assets/images/collaborators-makersplace.png"
   import LogoCoinbase from "@/assets/images/collaborators-coinbase.png"
+  import LogoRecur from "@/assets/images/collaborators-recur.png"
 
   @Component
   export default class Collaborators extends Vue {
@@ -32,6 +33,7 @@
       { img: LogoZora, url: "https://zora.co" },
       { img: LogoMakersPlace, url: "https://makersplace.com" },
       { img: LogoCoinbase, url: "https://nft.coinbase.com" },
+      { img: LogoRecur, url: "https://recurforever.com" },
     ]
     logoOrder: number[] = []
     loadedLogo: number = 0
