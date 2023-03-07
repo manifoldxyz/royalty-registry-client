@@ -111,7 +111,6 @@
         </p>
         <ul>
           <li>Mainnet: {{ engine.get(1) }}.</li>
-          <li>Rinkeby: {{ engine.get(4) }}.</li>
           <li>Ropsten: {{ engine.get(3) }}.</li>
           <li>Goerli: {{ engine.get(5) }}.</li>
           <li>Kovan: {{ engine.get(42) }}.</li>
@@ -123,7 +122,6 @@
         </p>
         <ul>
           <li>Mainnet: {{ registry.get(1) }}.</li>
-          <li>Rinkeby: {{ registry.get(4) }}.</li>
           <li>Ropsten: {{ registry.get(3) }}.</li>
           <li>Goerli: {{ registry.get(5) }}.</li>
           <li>Kovan: {{ registry.get(42) }}.</li>

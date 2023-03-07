@@ -15,7 +15,6 @@
     <div class="header-networks">
       <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
       <span @click="changeNetworks(3)" :class="{selected: $store.state.network == 3}">Ropsten</span>
-      <span @click="changeNetworks(4)" :class="{selected: $store.state.network == 4}">Rinkeby</span>
       <span @click="changeNetworks(5)" :class="{selected: $store.state.network == 5}">Goerli</span>
       <span @click="changeNetworks(42)" :class="{selected: $store.state.network == 42}">Kovan</span>
       <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
