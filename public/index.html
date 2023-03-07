@@ -18,6 +18,17 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Chivo&display=swap" rel="stylesheet">
+    <script defer data-domain="royaltyregistry.xyz" src="https://plausible.io/js/script.manual.js"></script>
+    <!-- define the `plausible` function to manually trigger events -->
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
+    <!-- trigger pageview -->
+    <script>
+      var url = window.location.href;
+      // Replace every all-numeric sequences located between two slashes by "_ID_"
+      var redactedUrl = url.replace(/\d+/g, "_ID_");
+      // Send the pageview event to Plausible
+      plausible('pageview', { u: redactedUrl });
+    </script>
   </head>
   <body>
     <noscript>

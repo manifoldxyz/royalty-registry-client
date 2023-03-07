@@ -130,3 +130,5 @@ out
 .#*
 .DS_Store
 *.pyc
+.idea/
+royalty-registry-client.iml

@@ -20,6 +20,7 @@
   import LogoMakersPlace from "@/assets/images/collaborators-makersplace.png"
   import LogoCoinbase from "@/assets/images/collaborators-coinbase.png"
   import LogoRecur from "@/assets/images/collaborators-recur.png"
+  import LogoKnownOrigin from "@/assets/images/collaborators-knownorigin.png"
 
   @Component
   export default class Collaborators extends Vue {
@@ -34,6 +35,7 @@
       { img: LogoMakersPlace, url: "https://makersplace.com" },
       { img: LogoCoinbase, url: "https://nft.coinbase.com" },
       { img: LogoRecur, url: "https://recurforever.com" },
+      { img: LogoKnownOrigin, url: "https://knownorigin.io" },
     ]
     logoOrder: number[] = []
     loadedLogo: number = 0
