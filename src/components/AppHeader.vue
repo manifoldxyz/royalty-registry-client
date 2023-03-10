@@ -14,14 +14,17 @@
     </nav>
     <div class="header-networks">
       <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
-      <span @click="changeNetworks(3)" :class="{selected: $store.state.network == 3}">Ropsten</span>
-      <span @click="changeNetworks(5)" :class="{selected: $store.state.network == 5}">Goerli</span>
-      <span @click="changeNetworks(42)" :class="{selected: $store.state.network == 42}">Kovan</span>
       <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
+      <span @click="changeNetworks(10)" :class="{selected: $store.state.network == 10}">Optimism</span>
+      <span @click="changeNetworks(42161)" :class="{selected: $store.state.network == 42161}">Arbitrum</span>
+      <span @click="changeNetworks(43114)" :class="{selected: $store.state.network == 43114 }">Avalanche</span>
+      <span @click="changeNetworks(56)" :class="{selected: $store.state.network == 56 }">BNB</span>
+      <span @click="changeNetworks(5)" :class="{selected: $store.state.network == 5}">Goerli</span>
       <span @click="changeNetworks(80001)" :class="{selected: $store.state.network == 80001}">Mumbai</span>
+      
       <div class="header-networks-addresses" v-if="$store.state.network">
-        <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, registry.get($store.state.network))">{{ registry.get($store.state.network) }}</a></div>
-        <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) }}</a></div>
+        <div><span>Registry:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, registry.get($store.state.network))">{{ registry.get($store.state.network) || '0x3D1151dc590ebF5C04501a7d4E1f8921546774eA' }}</a></div>
+        <div><span>Engine:</span><a target="_blank" :href="getEtherscanAddressUrl($store.state.network, engine.get($store.state.network))">{{ engine.get($store.state.network) || '0xEF770dFb6D5620977213f55f99bfd781D04BBE15' }}</a></div>
       </div>
     </div>
   </header>
@@ -132,26 +135,30 @@
         }
 
         &:nth-child(2) {
-          color: #ec5a8d;
+          color: #8247e5;
         }
 
         &:nth-child(3) {
-          color: #efc45c;
+          color: #ff0420;
         }
 
         &:nth-child(4) {
-          color: #2585df;
+          color: #28a0f0;
         }
 
         &:nth-child(5) {
-          color: #6e43e4;
+          color: #e84142;
         }
 
         &:nth-child(6) {
-          color: #18099e;
+          color: #fbc828;
         }
 
         &:nth-child(7) {
+          color: #2585df;
+        }
+
+        &:nth-child(8) {
           color: #b345f3;
         }
       }

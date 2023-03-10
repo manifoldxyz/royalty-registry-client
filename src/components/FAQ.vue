@@ -58,6 +58,7 @@
           <li>Rarible</li>
           <li>SuperRare</li>
           <li>Zora (limited functionality)</li>
+          <li>Artblocks</li>
         </ul>
         <p>
           You can use the deployed Royalty Engine at engine-v1.royaltyregistry.eth (<a target="_blank" :href="getEtherscanAddressUrl(1, engine.get(1))">{{ engine.get(1) }}</a>) or you can fork the engine and include it in your marketplace.
@@ -111,22 +112,20 @@
         </p>
         <ul>
           <li>Mainnet: {{ engine.get(1) }}.</li>
-          <li>Ropsten: {{ engine.get(3) }}.</li>
           <li>Goerli: {{ engine.get(5) }}.</li>
-          <li>Kovan: {{ engine.get(42) }}.</li>
           <li>Polygon: {{ engine.get(137) }}.</li>
           <li>Mumbai: {{ engine.get(80001) }}.</li>
+          <li>Optimism, Arbitrum, Avalanche, BNB: {{ commonEngineV1Address }}</li>
         </ul>
         <p>
           If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyRegistry.json">here</a> and the Royalty Registry locations are:
         </p>
         <ul>
           <li>Mainnet: {{ registry.get(1) }}.</li>
-          <li>Ropsten: {{ registry.get(3) }}.</li>
           <li>Goerli: {{ registry.get(5) }}.</li>
-          <li>Kovan: {{ registry.get(42) }}.</li>
           <li>Polygon: {{ registry.get(137) }}.</li>
           <li>Mumbai: {{ registry.get(80001) }}.</li>
+          <li>Optimism, Arbitrum, Avalanche, BNB: {{ commonRegistryAddress }}</li>
         </ul>
       </div>
     </details>
@@ -134,8 +133,8 @@
 </template>
 <script lang="ts">
   import { Component, Vue } from "vue-property-decorator"
-  import { RoyaltyRegistryAddresses } from "@/lib/RoyaltyRegistry"
-  import { RoyaltyEngineV1Addresses } from "@/lib/RoyaltyEngineV1"
+  import { RoyaltyRegistryAddresses, COMMON_REGISTRY_ADDRESS } from "@/lib/RoyaltyRegistry"
+  import { RoyaltyEngineV1Addresses, COMMON_ENGINE_V1_ADDRESS } from "@/lib/RoyaltyEngineV1"
   import { getEtherscanAddressUrl } from "@/lib/etherscan"
 
   @Component
@@ -143,6 +142,8 @@
     registry: Map<number, string> = new Map()
     engine: Map<number, string> = new Map()
     getEtherscanAddressUrl: Function = getEtherscanAddressUrl
+    commonEngineV1Address = COMMON_ENGINE_V1_ADDRESS
+    commonRegistryAddress = COMMON_REGISTRY_ADDRESS
 
     created() {
       this.registry = RoyaltyRegistryAddresses

@@ -1,0 +1,3 @@
+export const SUPPORTED_NETWORKS = [
+  1, 5, 10, 56, 137, 42161, 43114, 80001
+]
