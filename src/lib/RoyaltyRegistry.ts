@@ -4,7 +4,6 @@ import { SUPPORTED_NETWORKS } from "./SupportedNetworks"
 
 export const RoyaltyRegistryAddresses: Map<number, string> = new Map([
    [1, '0xad2184fb5dbcfc05d8f056542fb25b04fa32a95d'],
-   [5, '0x644611f32769aaecceadec6462c9495b23b40520'],
    [137, '0xe7c9Cb6D966f76f3B5142167088927Bf34966a1f'],
    [80001, '0xb8b5eC5Fa0E20dED9dC86D029Ef24FdccE900a51']
 ])

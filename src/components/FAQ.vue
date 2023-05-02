@@ -112,20 +112,18 @@
         </p>
         <ul>
           <li>Mainnet: {{ engine.get(1) }}.</li>
-          <li>Goerli: {{ engine.get(5) }}.</li>
           <li>Polygon: {{ engine.get(137) }}.</li>
           <li>Mumbai: {{ engine.get(80001) }}.</li>
-          <li>Optimism, Arbitrum, Avalanche, BNB: {{ commonEngineV1Address }}</li>
+          <li>Goerli, Optimism, Arbitrum, Avalanche, BNB: {{ commonEngineV1Address }}</li>
         </ul>
         <p>
           If you would like to access the Royalty Registry directly to build your own lookup engine, the abi is <a href="https://github.com/manifoldxyz/royalty-registry-client/blob/main/src/abi/RoyaltyRegistry.json">here</a> and the Royalty Registry locations are:
         </p>
         <ul>
           <li>Mainnet: {{ registry.get(1) }}.</li>
-          <li>Goerli: {{ registry.get(5) }}.</li>
           <li>Polygon: {{ registry.get(137) }}.</li>
           <li>Mumbai: {{ registry.get(80001) }}.</li>
-          <li>Optimism, Arbitrum, Avalanche, BNB: {{ commonRegistryAddress }}</li>
+          <li>Goerli, Optimism, Arbitrum, Avalanche, BNB: {{ commonRegistryAddress }}</li>
         </ul>
       </div>
     </details>
