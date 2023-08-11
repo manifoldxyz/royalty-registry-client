@@ -16,6 +16,7 @@
       <span @click="changeNetworks(1)" :class="{selected: $store.state.network == 1}">Mainnet</span>
       <span @click="changeNetworks(137)" :class="{selected: $store.state.network == 137}">Polygon</span>
       <span @click="changeNetworks(10)" :class="{selected: $store.state.network == 10}">Optimism</span>
+      <span @click="changeNetworks(8453)" :class="{selected: $store.state.network == 8453}">Base</span>
       <span @click="changeNetworks(42161)" :class="{selected: $store.state.network == 42161}">Arbitrum</span>
       <span @click="changeNetworks(43114)" :class="{selected: $store.state.network == 43114 }">Avalanche</span>
       <span @click="changeNetworks(56)" :class="{selected: $store.state.network == 56 }">BNB</span>
@@ -147,18 +148,22 @@
         }
 
         &:nth-child(5) {
-          color: #e84142;
+          color: #28a0f0;
         }
 
         &:nth-child(6) {
-          color: #fbc828;
+          color: #e84142;
         }
 
         &:nth-child(7) {
-          color: #2585df;
+          color: #fbc828;
         }
 
         &:nth-child(8) {
+          color: #2585df;
+        }
+
+        &:nth-child(9) {
           color: #b345f3;
         }
       }

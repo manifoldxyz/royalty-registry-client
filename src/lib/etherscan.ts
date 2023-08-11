@@ -4,6 +4,7 @@ const NETWORK_DOMAINS: {[key: number]: string} = {
   10: 'https://optimistic.etherscan.io/',
   56: 'https://bscscan.com/',
   137: 'https://polygonscan.com/',
+  8453: 'https://basescan.org/',
   42161: 'https://arbiscan.io/',
   43114: 'https://snowtrace.io/',
   80001: 'https://mumbai.polygonscan.com/'
