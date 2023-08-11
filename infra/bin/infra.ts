@@ -1,9 +1,9 @@
 #!/usr/bin/env node
-import 'source-map-support/register';
-import { App } from '@aws-cdk/core';
-import { ManifoldAwsFrontendStackLib } from '@manifoldxyz/manifold-aws-frontend-stack-lib'
+import 'source-map-support/register'
+import * as cdk from 'aws-cdk-lib'
+import { ManifoldAwsFrontendStackLib } from '@manifoldxyz/aws-frontend-stack-lib'
 
-const app = new App();
+const app = new cdk.App()
 new ManifoldAwsFrontendStackLib(app, 'RoyaltyRegistryStack', {
   websiteName: 'RoyaltyRegistry',
   domainName: 'royaltyregistry.xyz',
