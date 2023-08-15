@@ -7,7 +7,6 @@ const app = new cdk.App()
 new ManifoldAwsFrontendStackLib(app, 'RoyaltyRegistryStack', {
   websiteName: 'RoyaltyRegistry',
   domainName: 'royaltyregistry.xyz',
-  alternativeDomains: ['www.royaltyregistry.xyz', '*.royaltyregistry.xyz'],
   env: {
     account: process.env.AWS_ACCOUNT,
     region: 'us-east-1'
