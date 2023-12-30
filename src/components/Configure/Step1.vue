@@ -2,7 +2,7 @@
   <div class="step step1" :class="{loaded}">
     <div class="step1-content-container" :class="{show: loaded}">
       <div class="step1-content">
-        <span class="step-label">Step 1 / 4 : Enter Token Address</span>
+        <span class="step-label">Step 1 / 3 : Enter Token Address</span>
         <h2>Enter Token Address</h2>
         <div class="token-address-bar">
           <selectable-field

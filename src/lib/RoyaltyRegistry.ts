@@ -41,9 +41,7 @@ export class RoyaltyRegistry {
    * @returns ethers.Contract
    */
   private async _getContractInstance(withSigner = false): Promise<ethers.Contract> {
-    const network = await this.ethersProvider_.getNetwork()
-    const contractAddress = RoyaltyRegistryAddresses.get(network.chainId)
-    if (!contractAddress) throw new Error("Network not supported")
+    const contractAddress = await this.getContractAddress()
 
     if (!withSigner) {
       if (!this.registryContractReadOnly_) {
@@ -105,5 +103,16 @@ export class RoyaltyRegistry {
     return await contract.setRoyaltyLookupAddress(tokenAddress, overrideAddress, {from: this.ethersProviderWallet_})
   }
 
+  /**
+   * The location of the shared royalty registry contract 
+   * 
+   * @returns registry contract address
+   */
+  public async getContractAddress(): Promise<string> {
+    const network = await this.ethersProvider_.getNetwork()
+    const contractAddress = RoyaltyRegistryAddresses.get(network.chainId)
+    if (!contractAddress) throw new Error("Network not supported")
+    return contractAddress
+  }
 
 }

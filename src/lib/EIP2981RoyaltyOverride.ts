@@ -1,13 +1,18 @@
 import { ethers } from "ethers"
 import { EIP2981RoyaltyOverrideABI } from "@/abi/EIP2981RoyaltyOverride.json"
 import { EIP2981RoyaltyOverrideFactoryABI } from "@/abi/EIP2981RoyaltyOverrideFactory.json"
+import { SUPPORTED_NETWORKS } from "./SupportedNetworks"
 
 const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
-  [1, '0x4Cc22d43bC646C1e496D4F739A5a0d875eB968C4'],
-  [5, '0x6C544f8AcfA8368c454654E7013F7b8eBf5ba0cc'],
-  [137, '0x5Fc888dFBAB81e890Ef314e390Cb612c4c0c6d6c'],
-  [80001, '0x5Fc888dFBAB81e890Ef314e390Cb612c4c0c6d6c']
 ])
+
+export const COMMON_OVERRIDE_FACTORY_ADDRESS = '0x734513F61a65B3745fC7BB574aDFe18379355a1C'
+
+for (const network of SUPPORTED_NETWORKS) {
+  if (!RoyaltyOverrideFactoryAddresses.has(network)) {
+    RoyaltyOverrideFactoryAddresses.set(network, COMMON_OVERRIDE_FACTORY_ADDRESS)
+  }
+}
 
 export interface RoyaltyInfo {
   recipient: string,
@@ -23,7 +28,7 @@ interface RoyaltyInfoConfig {
 export class EIP2981RoyaltyOverrideFactory {
   private factoryContract_: ethers.Contract | null = null
   private ethersProvider_: ethers.providers.Web3Provider
-  
+
   public constructor(provider: any) {
     this.ethersProvider_ = new ethers.providers.Web3Provider(provider)
     //@ts-ignore
@@ -47,10 +52,18 @@ export class EIP2981RoyaltyOverrideFactory {
   }
 
   /**
-   * Create an override contract
+   * Create an override contract and register it with the given default royalties
+   *
+   * @param royaltyRegistry - The royalty registry address to register the override with
+   * @param tokenAddress    - The token contract address
+   * @param recipient       - Royalty recipient
+   * @param bps             - Royalty bps
+   * @returns
    */
-  public async createOverrideContract() {
-    return (await this._getContractInstance()).createOverride()
+  public async createOverrideAndRegisterContract(royaltyRegistry: string, tokenAddress: string, recipient: string, bps: number) {
+    const contract = await this._getContractInstance()
+    const createOverrideAndRegister = contract['createOverrideAndRegister(address,address,(address,uint16))']
+    return createOverrideAndRegister(royaltyRegistry, tokenAddress, [recipient, bps])
   }
 }
 

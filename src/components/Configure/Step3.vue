@@ -1,37 +1,163 @@
 <template>
   <div class="step step3">
     <div :class="{show: loaded}" class="step3-content">
-      <span class="step-label">Step 3 / 4 : Deploy Override Contract</span>
-      <h2>Deploying New Override Contract</h2>
-      <span class="text">Sending...</span>
-      <template v-if="!!newContractTxHash">
-        <span class="text">Sent.</span>
-        <span class="text">Transaction Hash: {{ newContractTxHash }}</span>
-        <span class="text">Etherscan: <a target="_blank" :href="getEtherscanTxUrl($store.state.network, newContractTxHash)">{{ getEtherscanTxUrl($store.state.network, newContractTxHash) }}</a></span>
-        <span class="text">Confirming...</span>
-      </template>
-      <template v-if="!!newContractAddress">
-        <span class="text">Confirmed.</span>
-        <span class="text">Contract Address: {{ newContractAddress }}</span>
-        <span class="text">Etherscan: <a target="_blank" :href="getEtherscanAddressUrl($store.state.network, newContractAddress)">{{ getEtherscanAddressUrl($store.state.network, newContractAddress) }}</a></span>
-      </template>
-      <template v-if="!!setOverrideTxHash">
-        <span class="text">Setting as Override Contract for {{ tokenAddress }}...</span>
-        <span class="text">Transaction Hash: {{ setOverrideTxHash }}</span>
-        <span class="text">Etherscan: <a target="_blank" :href="getEtherscanTxUrl($store.state.network, setOverrideTxHash)">{{ getEtherscanTxUrl($store.state.network, setOverrideTxHash) }}</a></span>
-        <span class="text">Setting...</span>
-      </template>
-      <template v-if="overrideSet">
-        <span class="text">Set.</span>
-        <div class="step3-action" :class="{show: overrideSet}">
-          <h2>Configure New Override</h2>
-          <button :tabindex="active ? 0 : -1" class="full" @click="configureOverride">Configure Override</button>
+      <template v-if="!!overrideAddress">
+        <span class="step-label">Step 3 / 3 : Configure Royalty Overrides</span>
+        <h2>Token Contract Default Royalty</h2>
+        <span class="text">Set a default policy for all tokens on this contract.</span>
+        <span class="text">Example: 10% = 1000 <a href="https://en.wikipedia.org/wiki/Basis_point">Basis Points (BPS)</a>.</span>
+        <div class="bar default-royalty-bar">
+          <selectable-field
+            :tabindex="active ? 0 : -1"
+            :class="{error: defaultRoyalty.recipientError}"
+            :disabled="transaction.identifier == 'default'"
+            label="Recipient Address"
+            placeholder="0"
+            :integer="true"
+            :model="defaultRoyalty.recipient"
+            @change="setRecipient($event, defaultRoyalty)"
+          />
+          <selectable-number-field
+            :tabindex="active ? 1 : -1"
+            :class="{error: defaultRoyalty.bpsError}"
+            :disabled="transaction.identifier == 'default'"
+            class="right-align"
+            label="Royalty Basis Points"
+            placeholder="0"
+            :integer="true"
+            :model="defaultRoyalty.bps"
+            @change="setBps($event, defaultRoyalty)"
+          />
+          <span :class="{disabled: transaction.identifier == 'default'}">BPS</span>
+        </div>
+        <button
+          :disabled="defaultRoyalty.disabled || pendingTx"
+          class="full"
+          :tabindex="active ? 2 : -1"
+          @click="setDefaultBPS"
+        >
+          <template v-if="transaction.identifier == 'default'">
+            <template v-if="transaction.state == 'confirmed'">
+              Saved
+            </template>
+            <template v-else-if="transaction.state == 'error'">
+              Error
+            </template>
+            <span v-else class="spinner"></span>
+          </template>
+          <template v-else>
+            Save Default Royalty
+          </template>
+        </button>
+
+        <h2>Per Token Royalties</h2>
+        <span class="text">Fetch and Configure Overrides by Token ID.</span>
+        <span class="text">Example: 10% = 1000 Basis Points.</span>
+        <div class="bar token-id-fetch-bar">
+          <selectable-field
+            :tabindex="active ? 3 : -1"
+            label="Fetch Token ID"
+            placeholder="0"
+            :class="{error: fetchTokenIdFieldError}"
+            :model="fetchTokenIdField"
+            @change="fetchTokenIdField = $event"
+          />
+          <button
+            :disabled="fetchTokenIdFieldError || !fetchTokenIdField || perTokenId.id == fetchTokenIdField"
+            :tabindex="active ? 4 : -1"
+            @click="fetchTokenId"
+          >
+            <img src="@/assets/images/icons/go.svg" />
+          </button>
+        </div>
+
+        <div class="token-id-overrides">
+          <div class="bar token-id-override-bar" v-if="perTokenId.id">
+            <selectable-field
+              :tabindex="active ? 6 : -1"
+              :class="{error: perTokenId.recipientError}"
+              label="Recipient Address"
+              placeholder="0x0123456789abcdef"
+              fontsize="22"
+              :model="perTokenId.recipient"
+              @change="setRecipient($event, perTokenId)"
+            />
+            <selectable-number-field
+              :tabindex="active ? 7 : -1"
+              :class="{error: perTokenId.bpsError}"
+              label="Royalty Basis Points"
+              class="right-align"
+              placeholder="0"
+              :integer="true"
+              :model="perTokenId.bps"
+              @change="setBps($event, perTokenId)"
+            />
+            <button
+              :tabindex="active ? 8 : -1"
+              :disabled="perTokenId.disabled || pendingTx"
+              @click="setPerTokenIdBPS()"
+            >
+              <template v-if="transaction.identifier == perTokenId.id">
+                <template v-if="transaction.state == 'confirmed' || transaction.state == 'error'">
+                  {{ transaction.state }}
+                </template>
+                <span v-else class="spinner"></span>
+              </template>
+              <template v-else>
+                Save
+              </template>
+            </button>
+          </div>
         </div>
       </template>
-      <template v-if="error || cancelled">
-        <span v-if="error" class="text" :style="{'color': 'red'}">An error occured.</span>
-        <span v-if="cancelled" class="text" :style="{'color': 'red'}">You cancelled the transaction.</span>
-        <button :tabindex="active ? 0 : -1" class="full" @click="performTransaction">Try Again</button>
+      <template v-else>
+        <span class="step-label">Step 3 / 3 : Configure Royalty Overrides And Deploy The Override Contract</span>
+        <h2>Token Contract Default Royalty</h2>
+        <span class="text">Set a default policy for all tokens on this contract.</span>
+        <span class="text">Example: 10% = 1000 <a href="https://en.wikipedia.org/wiki/Basis_point">Basis Points (BPS)</a>.</span>
+        <div class="bar default-royalty-bar">
+          <selectable-field
+            :tabindex="active ? 0 : -1"
+            :class="{error: defaultRoyalty.recipientError}"
+            :disabled="transaction.identifier == 'default'"
+            label="Recipient Address"
+            placeholder="0"
+            :integer="true"
+            :model="defaultRoyalty.recipient"
+            @change="setRecipient($event, defaultRoyalty)"
+          />
+          <selectable-number-field
+            :tabindex="active ? 1 : -1"
+            :class="{error: defaultRoyalty.bpsError}"
+            :disabled="transaction.identifier == 'default'"
+            class="right-align"
+            label="Royalty Basis Points"
+            placeholder="0"
+            :integer="true"
+            :model="defaultRoyalty.bps"
+            @change="setBps($event, defaultRoyalty)"
+          />
+          <span :class="{disabled: transaction.identifier == 'default'}">BPS</span>
+        </div>
+        <button
+          :disabled="defaultRoyalty.disabled || pendingTx"
+          class="full"
+          :tabindex="active ? 2 : -1"
+          @click="deployOverride"
+        >
+          <template v-if="transaction.identifier == 'default'">
+            <template v-if="transaction.state == 'confirmed'">
+              Deployed
+            </template>
+            <template v-else-if="transaction.state == 'error'">
+              Error
+            </template>
+            <span v-else class="spinner"></span>
+          </template>
+          <template v-else>
+            Deploy The Override Contract With The Default Royalty
+          </template>
+        </button>
       </template>
     </div>
     <load-screen v-if="!loaded" />
@@ -41,140 +167,272 @@
   import { ethers } from "ethers"
   import { mixins } from "vue-class-component"
   import { Component, Watch } from "vue-property-decorator"
+  import { RoyaltyInfo, EIP2981RoyaltyOverride } from "@/lib/EIP2981RoyaltyOverride"
   import { EIP2981RoyaltyOverrideFactory } from "@/lib/EIP2981RoyaltyOverride"
-  import { setCookie, getCookie } from "@/lib/cookies"
-  import { PENDING_CONFIGURATION_TOKEN_ADDRESS, PENDING_NEW_CONTRACT_TX, PENDING_SET_OVERRIDE_TX } from "@/constants"
-  import { getEtherscanTxUrl, getEtherscanAddressUrl } from "@/lib/etherscan"
   import StepMixin from "@/mixins/StepMixin"
+  import SelectableField from "@/components/common/SelectableField.vue"
+  import SelectableNumberField from "@/components/common/SelectableNumberField.vue"
 
-  @Component
+  type SetBPSFields = {
+    id?: string;
+    recipientError: boolean;
+    bpsError: boolean;
+    recipient: string;
+    bps:  string;
+    disabled: boolean;
+  }
+
+  type Transaction = {
+    identifier: string;
+    state: string;
+  }
+
+  @Component({
+    components: {
+      SelectableField,
+      SelectableNumberField
+    }
+  })
   export default class Step3 extends mixins(StepMixin) {
-    getEtherscanTxUrl: Function = getEtherscanTxUrl
-    getEtherscanAddressUrl: Function = getEtherscanAddressUrl
-    provider: ethers.providers.Web3Provider
-    factory: EIP2981RoyaltyOverrideFactory
+    defaultRoyalty: SetBPSFields = {
+      recipientError: false,
+      bpsError: false,
+      recipient: "",
+      bps:  "",
+      disabled: false
+    }
+    fetchTokenIdFieldError: boolean = false
+    fetchTokenIdField: string = ""
+    perTokenId: Partial<SetBPSFields> = {}
     tokenAddress: string = ""
-    newContractTxHash: string = ""
-    newContractAddress: string = ""
-    setOverrideTxHash: string = ""
-    overrideSet: boolean = false
-    error: boolean = false
-    cancelled: boolean = false
+    overrideAddress: string = ""
+    overrideContract: EIP2981RoyaltyOverride
+    transaction: Transaction = {
+      identifier: "",
+      state: ""
+    }
+    factory: EIP2981RoyaltyOverrideFactory
 
-    created() {
-      //@ts-ignore
-      this.provider = new ethers.providers.Web3Provider(window.ethereum)
+    setRecipient(value, obj) {
+      obj.recipient = value
+      if (!obj.recipient) {
+        obj.recipientError = false
+      } else if (!ethers.utils.isAddress(obj.recipient)) {
+        obj.recipientError = true
+      } else {
+        obj.recipientError = false
+      }
+      if (!obj.recipientError && !obj.bpsError && !!obj.recipient && !!obj.bps) {
+        obj.disabled = false
+      } else {
+        obj.disabled = true
+      }
+    }
+
+    setBps(value, obj) {
+      obj.bps = value
+      if (value && parseInt(value) >= 10000) {
+        obj.bpsError = true
+      } else {
+        obj.bpsError = false
+      }
+      if (!obj.recipientError && !obj.bpsError && !!obj.recipient && !!obj.bps) {
+        obj.disabled = false
+      } else {
+        obj.disabled = true
+      }
+    }
+
+    get pendingTx() {
+      return this.transaction.state.length > 0
     }
 
     async activate() {
       //@ts-ignore
       this.tokenAddress = this.$parent.tokenAddress
       //@ts-ignore
+      this.engine = this.$parent.engine
+      //@ts-ignore
+      this.overrideAddress = this.$parent.overrideAddress
+      //@ts-ignore
+      this.overrideContract = new EIP2981RoyaltyOverride(window.ethereum, this.overrideAddress)
+      //@ts-ignore
       this.factory = new EIP2981RoyaltyOverrideFactory(window.ethereum)
+
+      if (this.overrideAddress) {
+        const royaltyInfo: RoyaltyInfo | null = await this.overrideContract.getDefaultRoyalty()
+        if (royaltyInfo != null) {
+          this.defaultRoyalty.recipient = royaltyInfo.recipient != undefined ? royaltyInfo.recipient : ""
+          this.defaultRoyalty.bps = royaltyInfo.bps != undefined ? royaltyInfo.bps.toString() : ""
+        }
+      }
+
       this.loaded = true
     }
 
-    @Watch("loaded")
-    loadedHandler(value) {
-      if (value) {
-        this.performTransaction()
-      }
-    }
-
-    async performTransaction() {
+    async waitTransaction(pendingTx, deploying: boolean) {
       try {
-        setCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS, this.tokenAddress, 10)
-        const pendingNewContractTx = getCookie(PENDING_NEW_CONTRACT_TX)
-        let newContractTx
+        this.transaction.state = "confirming"
+        const receipt = await pendingTx.wait()
 
-        if (pendingNewContractTx) {
-          newContractTx = await this.provider.getTransaction(pendingNewContractTx)
-        } else {
-          newContractTx = await this.factory.createOverrideContract()
-          setCookie(PENDING_NEW_CONTRACT_TX, newContractTx.hash, 10)
+        if (receipt.status == 0) {
+          this.transaction.state = "error"
         }
 
-        this.newContractTxHash = newContractTx.hash
-        let newContractReceipt
-
-        if (pendingNewContractTx) {
-          while (!newContractReceipt) {
-            newContractReceipt = await this.provider.getTransactionReceipt(this.newContractTxHash)
-            await new Promise(res => setTimeout(res, 2000))
-          }
-        } else {
-          newContractReceipt = await newContractTx.wait()
+        this.transaction.state = "confirmed"
+        if (deploying) {
+          const newContractTxInterface = new ethers.utils.Interface([
+            "event EIP2981RoyaltyOverrideCreated(address newEIP2981RoyaltyOverride)"
+          ])
+          this.overrideAddress = newContractTxInterface.parseLog(receipt.logs.find(log => {
+            return log.topics[0] == '0x6ace5835f14486bead350c58a6ce67b18fec46c58b809b749b08541cf7458025'
+          })).args[0]
+          this.overrideContract = new EIP2981RoyaltyOverride((window as any).ethereum, this.overrideAddress)
         }
-
-        if (!newContractReceipt || newContractReceipt.status == 0) {
-          setCookie(PENDING_NEW_CONTRACT_TX, '', 0)
-          throw new Error()
-        }
-
-        const newContractTxInterface = new ethers.utils.Interface([
-          "event EIP2981RoyaltyOverrideCreated(address newEIP2981RoyaltyOverride)"
-        ])
-
-        this.newContractAddress = newContractTxInterface.parseLog(newContractReceipt.logs.find(log => { return log.topics[0] == "0x6ace5835f14486bead350c58a6ce67b18fec46c58b809b749b08541cf7458025" })).args[0]
-
-        const pendingSetOverrideTx = getCookie(PENDING_SET_OVERRIDE_TX)
-        let setOverrideTx
-
-        if (pendingSetOverrideTx) {
-          setOverrideTx = await this.provider.getTransaction(pendingSetOverrideTx)
-        } else {
-          setOverrideTx = await this.registry.setRoyaltyLookupAddress(this.tokenAddress, this.newContractAddress)
-          setCookie(PENDING_SET_OVERRIDE_TX, setOverrideTx.hash, 10)
-        }
-
-        this.setOverrideTxHash = setOverrideTx.hash
-
-        let setOverrideReceipt
-        if (pendingSetOverrideTx) {
-          while (!setOverrideReceipt) {
-            setOverrideReceipt = await this.provider.getTransactionReceipt(this.setOverrideTxHash)
-            await new Promise(res => setTimeout(res, 2000))
-          }
-        } else {
-          setOverrideReceipt = await setOverrideTx.wait()
-        }
-
-        if (!setOverrideReceipt || setOverrideReceipt.status == 0) {
-          setCookie(PENDING_SET_OVERRIDE_TX, '', 0)
-          throw new Error()
-        }
-
-        this.overrideSet = true
-        setCookie(PENDING_NEW_CONTRACT_TX, '', 0)
-        setCookie(PENDING_SET_OVERRIDE_TX, '', 0)
-        setCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS, '', 0)
-
-      } catch (e: any) {
-        if (e.code === 4001) {
-          this.cancelled = true
-        } else {
+      } catch (e) {
+        if (process.env.NODE_ENV == "development") {
           console.log(e)
-          if (process.env.NODE_ENV == 'development') {
-            console.trace()
-          }
-          this.error = true
+        }
+        this.transaction.state = "error"
+      }
+
+      setTimeout(() => {
+        this.transaction.state = ""
+        this.transaction.identifier = ""
+      }, 2000)
+    }
+
+    async setDefaultBPS() {
+      this.transaction.identifier = "default"
+      this.waitTransaction(await this.overrideContract.setDefaultRoyalty(this.defaultRoyalty.recipient, parseInt(this.defaultRoyalty.bps)), false)
+    }
+
+    async deployOverride() {
+      this.transaction.identifier = "default"
+      const registryAddres = await this.registry.getContractAddress()
+      this.waitTransaction(await this.factory.createOverrideAndRegisterContract(registryAddres, this.tokenAddress, this.defaultRoyalty.recipient, parseInt(this.defaultRoyalty.bps)), true)
+    }
+
+    @Watch("fetchTokenIdField")
+    fetchTokenIdHandler(value) {
+      if (!value.match(/^[1-9][0-9]*$/)) {
+        this.fetchTokenIdFieldError = true
+      } else {
+        this.fetchTokenIdFieldError = false
+      }
+    }
+
+    async fetchTokenId() {
+      const royaltyData = await this.engine.getRoyalty(this.tokenAddress, this.fetchTokenIdField, ethers.BigNumber.from("10000"))
+
+      if (royaltyData.length > 0) {
+        this.perTokenId = {
+          id: this.fetchTokenIdField.toString(),
+          recipientError: false,
+          bpsError: false,
+          recipient: royaltyData[0].recipient == "0x0000000000000000000000000000000000000000" ? "" : royaltyData[0].recipient,
+          bps: royaltyData[0].amount.toString(),
+          disabled: true
         }
       }
     }
 
-    configureOverride() {
-      this.$emit('configure', this.newContractAddress)
+    async setPerTokenIdBPS() {
+      this.transaction.identifier = this.perTokenId.id!
+      this.waitTransaction(await this.overrideContract.setTokenRoyalty(this.perTokenId.id!, this.perTokenId.recipient!, parseInt(this.perTokenId.bps!)), false)
     }
   }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
   .step3 {
     .step3-content {
-      .step3-action {
-        opacity: 0;
-        transform: translateY(10px);
-        transition: opacity 0.25s, transform 0.25s;
-        pointer-events: none;
+      button {
+        &:disabled {
+          pointer-events: none;
+
+          > * {
+            opacity: 0.25;
+          }
+        }
+
+        .spinner {
+          transform: scale(0.5) !important;
+        }
+      }
+
+      .default-royalty-bar {
+        grid-template-columns: 1fr 136px auto;
+        margin-top: 40px;
+
+        .selectable-field {
+          &:first-child {
+            border-right: var(--border);
+          }
+
+          label {
+            left: 10px !important;
+            right: auto !important;
+          }
+        }
+
+        > span {
+          padding: 0 25px 0 15px;
+          line-height: 60px;
+          background: white;
+          font-size: 14px;
+          color: #aaa;
+
+          &.disabled {
+            background: var(--bg);
+          }
+        }
+      }
+
+      .token-id-fetch-bar {
+        margin-top: 40px;
+        grid-template-columns: 1fr 74px;
+
+        button {
+          border-left: var(--border);
+          background: white;
+
+          img {
+            transform: translateY(3px);
+          }
+        }
+      }
+
+      .token-id-overrides {
+        margin-top: 40px;
+
+        .token-id-override-bar {
+          grid-template-columns: 1fr 136px 74px;
+          grid-gap: 1px;
+          background: #ddd;
+          overflow: hidden;
+          margin-top: -1px;
+
+          &:hover {
+            box-shadow: none;
+          }
+
+          button {
+            background: white;
+            font-size: 10px;
+            text-transform: uppercase;
+
+            &:disabled {
+              > * {
+                opacity: 0.5;
+              }
+            }
+          }
+
+          &:first-child {
+            overflow: visible;
+            margin-top: 0;
+          }
+        }
       }
     }
   }

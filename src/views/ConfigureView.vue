@@ -4,7 +4,6 @@
       <step-1 :active="step == 1" @next="setTokenAddress" />
       <step-2 :active="step == 2" @create="step = 3" @configure="configureOverride" />
       <step-3 :active="step == 3" @configure="configureOverride" />
-      <step-4 :active="step == 4" />
     </div>
     <button
       v-show="step > 1"
@@ -19,21 +18,17 @@
 <script lang="ts">
   import { Component, Vue, Watch } from "vue-property-decorator"
   import { RoyaltyRegistry } from "@/lib/RoyaltyRegistry"
-  import { RoyaltyInfo, RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
+  import { RoyaltyEngineV1 } from "@/lib/RoyaltyEngineV1"
   import { RoyaltySpecChecker } from "@/lib/RoyaltySpecChecker"
-  import { getCookie } from "@/lib/cookies"
-  import { PENDING_CONFIGURATION_TOKEN_ADDRESS, PENDING_NEW_CONTRACT_TX, PENDING_SET_OVERRIDE_TX } from "@/constants"
   import Step1 from "@/components/Configure/Step1.vue"
   import Step2 from "@/components/Configure/Step2.vue"
   import Step3 from "@/components/Configure/Step3.vue"
-  import Step4 from "@/components/Configure/Step4.vue"
 
   @Component({
     components: {
       Step1,
       Step2,
       Step3,
-      Step4,
     }
   })
   export default class ConfigureView extends Vue {
@@ -52,12 +47,7 @@
 
     mounted() {
       setTimeout(() => {
-        if (getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)) {
-          this.tokenAddress = getCookie(PENDING_CONFIGURATION_TOKEN_ADDRESS)
-          this.step = 3
-        } else {
           this.step++
-        }
       }, 1000)
     }
 
@@ -68,7 +58,7 @@
 
     configureOverride(overrideAddress) {
       this.overrideAddress = overrideAddress
-      this.step = 4
+      this.step = 3
     }
 
     startOver() {
