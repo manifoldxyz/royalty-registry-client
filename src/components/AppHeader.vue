@@ -20,7 +20,7 @@
       <span @click="changeNetworks(42161)" :class="{selected: $store.state.network == 42161}">Arbitrum</span>
       <span @click="changeNetworks(43114)" :class="{selected: $store.state.network == 43114 }">Avalanche</span>
       <span @click="changeNetworks(56)" :class="{selected: $store.state.network == 56 }">BNB</span>
-      <span @click="changeNetworks(5)" :class="{selected: $store.state.network == 5}">Goerli</span>
+      <span @click="changeNetworks(5)" :class="{selected: $store.state.network == 11155111}">Sepolia</span>
       <span @click="changeNetworks(80001)" :class="{selected: $store.state.network == 80001}">Mumbai</span>
       
       <div class="header-networks-addresses" v-if="$store.state.network">

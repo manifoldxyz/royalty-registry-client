@@ -1,6 +1,6 @@
 const NETWORK_DOMAINS: {[key: number]: string} = {
   1: 'https://etherscan.io/',
-  5: 'https://goerli.etherscan.io/',
+  11155111: 'https://sepolia.etherscan.io/',
   10: 'https://optimistic.etherscan.io/',
   56: 'https://bscscan.com/',
   137: 'https://polygonscan.com/',
