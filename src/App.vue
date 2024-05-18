@@ -9,7 +9,7 @@
         <div class="unsupported-network">
           <div class="inner">
             <h1>RoyaltyRegistry.eth</h1>
-            <span>Only Mainnet, Optimism, Base, Arbitrum, Avalanche, BNB, Polygon Matic and Mumbai chains are supported.</span>
+            <span>Only Mainnet, Sepolia, Optimism, Base, Arbitrum, Avalanche, BNB, Polygon Matic and Mumbai chains are supported.</span>
             <collaborators />
             <faq />
           </div>
