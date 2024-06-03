@@ -7,7 +7,8 @@ module.exports = {
   extends: [
     '@vue/typescript',
     'eslint:recommended',
-    'plugin:vue/strongly-recommended'
+    'plugin:vue/strongly-recommended',
+    "plugin:cypress/recommended"
   ],
   parserOptions: {
     parser: {
@@ -42,5 +43,8 @@ module.exports = {
         mocha: true
       }
     }
-  ]
+  ],
+  globals: {
+    "cy": true
+  }
 }

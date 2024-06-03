@@ -1,7 +1,7 @@
 <template>
   <div class="step step2">
     <div :class="{show: loaded}" class="step2-content">
-      <span class="step-label">Step 2 / 4 : Token Royalties</span>
+      <span class="step-label">Step 2 / 3 : Token Royalties</span>
       <template v-if="!!royaltySpec">
         <h2>Token Contract Royalty Spec</h2>
         <span class="text">This Token already supports <strong>{{ royaltySpec }}</strong> and you <strong>DO NOT</strong> need to set a new override.</span>
