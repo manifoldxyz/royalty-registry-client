@@ -5,8 +5,11 @@ import { EIP2981RoyaltyOverrideFactoryABI } from "@/abi/EIP2981RoyaltyOverrideFa
 const RoyaltyOverrideFactoryAddresses: Map<number, string> = new Map([
   [1, '0x4Cc22d43bC646C1e496D4F739A5a0d875eB968C4'],
   [5, '0x6C544f8AcfA8368c454654E7013F7b8eBf5ba0cc'],
+  [10, '0x3C7FcDbbe53C21647FCA40eCa2e499bCcE0D23cF'],
   [137, '0x5Fc888dFBAB81e890Ef314e390Cb612c4c0c6d6c'],
-  [80001, '0x5Fc888dFBAB81e890Ef314e390Cb612c4c0c6d6c']
+  [8453, '0x3C7FcDbbe53C21647FCA40eCa2e499bCcE0D23cF'],
+  [80001, '0x5Fc888dFBAB81e890Ef314e390Cb612c4c0c6d6c'],
+  [11155111, '0x644611f32769aaecceadec6462c9495b23b40520']
 ])
 
 export interface RoyaltyInfo {
