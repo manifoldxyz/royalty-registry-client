@@ -5,7 +5,7 @@
       <template v-if="!!royaltySpec">
         <h2>Token Contract Royalty Spec</h2>
         <span class="text">This Token already supports <strong>{{ royaltySpec }}</strong> and you <strong>DO NOT</strong> need to set a new override.</span>
-        <span v-if="royaltySpec == 'Manifold'" class="text">You should configure your royalties using <a href="https://studio.manifoldxyz.dev">Manifold Studio</a>.</span>
+        <span v-if="royaltySpec == 'Manifold'" class="text">You should configure your royalties using <a href="https://studio.manifold.xyz">Manifold Studio</a>.</span>
       </template>
       <template v-if="!!overrideAddress">
         <h2>Active Overrides</h2>
